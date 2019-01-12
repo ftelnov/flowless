@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Toast;
+import android.content.pm.ActivityInfo;
 
 public class MainActivity extends AppCompatActivity {
     boolean flag = false;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initw();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button but = (Button) findViewById(R.id.button);
