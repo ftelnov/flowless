@@ -7,24 +7,6 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/towrite"
-        android:layout_width="191dp"
-        android:layout_height="63dp"
-
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="Yeah"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button"
         style="@style/ButtonMain"
@@ -40,10 +22,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.949"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
+        app:layout_constraintVertical_bias="0.12" />
 
     <LinearLayout
         android:layout_width="377dp"
@@ -55,6 +37,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
+            android:id="@+id/foodbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:srcCompat="@drawable/food_dark" />
+
+        <ImageButton
             android:id="@+id/searchbutton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -63,12 +53,13 @@
             app:srcCompat="@drawable/search_dark" />
 
         <ImageButton
-            android:id="@+id/profilebutton"
+            android:id="@+id/foodlistbutton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            app:srcCompat="@drawable/profile_dark" />
+            app:srcCompat="@drawable/listfood_dark" />
+
 
         <ImageButton
             android:id="@+id/notificationbutton"
@@ -79,20 +70,12 @@
             app:srcCompat="@drawable/notif_dark" />
 
         <ImageButton
-            android:id="@+id/foodbutton"
+            android:id="@+id/profilebutton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            app:srcCompat="@drawable/food_dark" />
-
-        <ImageButton
-            android:id="@+id/foodlistbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white"
-            app:srcCompat="@drawable/listfood_dark" />
+            app:srcCompat="@drawable/profile_dark" />
 
     </LinearLayout>
 

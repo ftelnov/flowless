@@ -63,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
         but.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                TextView tx = (TextView) findViewById(R.id.towrite);
                 if (flag) {
-                    tx.setText("Oh");
                     try {
                         mediaPlayer.start();
                     } catch (IllegalStateException e) {
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                         mediaPlayer_1.pause();
                     }
                     mediaPlayer_1.start();
-                    tx.setText("Yeah");
                 }
                 flag = !flag;
                 Toast toast = Toast.makeText(getApplicationContext(),
