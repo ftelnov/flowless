@@ -25,12 +25,40 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button but = (Button) findViewById(R.id.button);
+        final Button but = (Button) findViewById(R.id.button);
         final ImageButton search_but = (ImageButton) findViewById(R.id.searchbutton);
         search_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 search_but.setImageResource(R.drawable.search_light);
+            }
+        });
+        final ImageButton profile_but = (ImageButton) findViewById(R.id.profilebutton);
+        profile_but.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profile_but.setImageResource(R.drawable.profile_light);
+            }
+        });
+        final ImageButton notif_but = (ImageButton) findViewById(R.id.notificationbutton);
+        notif_but.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notif_but.setImageResource(R.drawable.notif_light);
+            }
+        });
+        final ImageButton food_but = (ImageButton) findViewById(R.id.foodbutton);
+        food_but.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                food_but.setImageResource(R.drawable.food_light);
+            }
+        });
+        final ImageButton listfood_but = (ImageButton) findViewById(R.id.foodlistbutton);
+        listfood_but.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listfood_but.setImageResource(R.drawable.listfood_light);
             }
         });
         but.setOnClickListener(new OnClickListener() {
