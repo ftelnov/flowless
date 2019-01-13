@@ -7,27 +7,9 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <Button
-        android:id="@+id/button"
-        style="@style/ButtonMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="37dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Notice Me"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="377dp"
         android:layout_height="47dp"
         android:background="@android:color/background_light"
@@ -42,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            app:srcCompat="@drawable/food_dark" />
+            app:srcCompat="@drawable/food_light" />
 
         <ImageButton
             android:id="@+id/searchbutton"
@@ -78,5 +60,21 @@
             app:srcCompat="@drawable/profile_dark" />
 
     </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="381dp"
+        android:layout_height="465dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/container"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>
