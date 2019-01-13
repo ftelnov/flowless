@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     boolean flag = false;
     public MediaPlayer mediaPlayer;
     public MediaPlayer mediaPlayer_1;
+    boolean flagSearch = false;
     private Context context;
 
     @Override
@@ -24,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button but = (Button) findViewById(R.id.button);
+        final ImageButton search_but = (ImageButton) findViewById(R.id.searchbutton);
+        search_but.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_but.setImageResource(R.drawable.search_light);
+            }
+        });
         but.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 TextView tx = (TextView) findViewById(R.id.towrite);
