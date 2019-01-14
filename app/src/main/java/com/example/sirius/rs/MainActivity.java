@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         visited.put(notif_but, false);
         visited.put(listfood_but, false);
 
+
         final List<ImageButton> list = new LinkedList<ImageButton>();
         list.add(food_but);
         list.add(search_but);
