@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class FoodFragment extends Fragment {
@@ -39,19 +41,29 @@ public class FoodFragment extends Fragment {
         ImageButton firstBottom = (ImageButton) view.findViewById(R.id.firstBottom);
         ImageButton secondBottom = (ImageButton) view.findViewById(R.id.secondBottom);
         final FragmentManager fragmentManager = getFragmentManager();
-        final CategoryFragment fragment = new CategoryFragment();
         Picasso.get().load("https://images.wallpaperscraft.ru/image/zavtrak_kruassany_kofe_yajtsa_frukty_95625_1920x1080.jpg").into(firstTop);
         Picasso.get().load("https://images.wallpaperscraft.ru/image/salat_ovoschi_vkusno_dieticheskoe_71637_1920x1080.jpg").into(secondTop);
         Picasso.get().load("https://images.wallpaperscraft.ru/image/ustricy_sup_posuda_ovoschi_79003_1920x1080.jpg").into(firstCenter);
         Picasso.get().load("http://gg.gg/cw79w").into(secondCenter);
         Picasso.get().load("http://gg.gg/cw7a8").into(firstBottom);
         Picasso.get().load("http://gg.gg/cw7ad").into(secondBottom);
-        firstTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-            }
-        });
+        List<ImageButton> Array = new ArrayList<ImageButton>();
+        Array.add(firstTop);
+        Array.add(secondBottom);
+        Array.add(secondTop);
+        Array.add(secondCenter);
+        Array.add(firstCenter);
+        Array.add(firstBottom);
+        for (ImageButton but : Array) {
+            final String tag = (String) but.getTag();
+            but.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CategoryFragment catFragment = CategoryFragment.newInstance(tag);
+                    fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
+                }
+            });
+        }
         return view;
     }
 }
