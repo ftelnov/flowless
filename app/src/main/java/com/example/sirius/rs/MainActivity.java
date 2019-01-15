@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setTitle("");
         super.onCreate(savedInstanceState);
         //Fragments
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -74,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         food_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(visited.get(food_but)) return;
+                if (visited.get(food_but)) return;
 
-                for(ImageButton imageButton: list){
+                for (ImageButton imageButton : list) {
                     todark(imageButton);
                 }
                 food_but.setImageResource(R.drawable.food_light);
@@ -87,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
         search_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(visited.get(search_but)) return;
+                if (visited.get(search_but)) return;
 
-                for(ImageButton imageButton: list){
+                for (ImageButton imageButton : list) {
                     todark(imageButton);
                 }
                 search_but.setImageResource(R.drawable.search_light);
@@ -101,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
         profile_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(visited.get(profile_but)) return;
-                for(ImageButton imageButton: list){
+                if (visited.get(profile_but)) return;
+                for (ImageButton imageButton : list) {
                     todark(imageButton);
                 }
                 profile_but.setImageResource(R.drawable.profile_light);
@@ -114,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
         notif_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(visited.get(notif_but)) return;
+                if (visited.get(notif_but)) return;
 
-                for(ImageButton imageButton: list){
+                for (ImageButton imageButton : list) {
                     todark(imageButton);
                 }
                 notif_but.setImageResource(R.drawable.notif_light);
@@ -127,9 +130,9 @@ public class MainActivity extends AppCompatActivity {
         listfood_but.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(visited.get(listfood_but)) return;
+                if (visited.get(listfood_but)) return;
 
-                for(ImageButton imageButton: list){
+                for (ImageButton imageButton : list) {
                     todark(imageButton);
                 }
                 listfood_but.setImageResource(R.drawable.listfood_light);
