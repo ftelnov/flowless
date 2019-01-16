@@ -1,11 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".SearchFragment">
 
-</LinearLayout>
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/search_rounded"
+        android:clickable="true"
+        android:focusable="true"
+        android:iconifiedByDefault="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rangebar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:mrb_pinColor="@color/colorPrimary"
+        app:mrb_pinMaxFont="15sp"
+        app:mrb_pinMinFont="12sp"
+        app:mrb_pinRadius="14dp"
+        app:mrb_pinTextColor="@color/white"
+        app:mrb_rangeBar="true"
+        app:mrb_rangeBarPaddingBottom="20dp"
+        app:mrb_connectingLineColor="@color/colorPrimary"
+        app:mrb_rangeBar_rounded="true"
+        app:mrb_selectorBoundaryColor="@color/colorPrimary"
+        app:mrb_selectorBoundarySize="2dp"
+        app:mrb_selectorSize="10dp"
+        app:mrb_temporaryPins="true"
+        app:mrb_tickEnd="10"
+        app:mrb_tickInterval="1"
+        app:mrb_tickStart="5" />
+
+</android.support.constraint.ConstraintLayout>
