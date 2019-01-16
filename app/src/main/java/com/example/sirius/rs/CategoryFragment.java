@@ -4,15 +4,25 @@ package com.example.sirius.rs;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 
 public class CategoryFragment extends Fragment {
@@ -33,53 +43,19 @@ public class CategoryFragment extends Fragment {
         String tag = getArguments().getString("tag");
         setInitialData(view, tag);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        DataAdapter adapter = new DataAdapter(getContext(), buttons);
+        DataAdapter adapter = new DataAdapter(getContext(), buttons, getFragmentManager());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return view;
     }
     private void setInitialData(View view, String tag){
-        switch (tag){
-            case "breakfast":
-                buttons.add(new clickitem("breakfast1"));
-                buttons.add(new clickitem("breakfast2"));
-                buttons.add(new clickitem("breakfast3"));
-                buttons.add(new clickitem("breakfast4"));
-                break;
-            case "fish":
-                buttons.add(new clickitem("fish1"));
-                buttons.add(new clickitem("fish2"));
-                buttons.add(new clickitem("fish3"));
-                buttons.add(new clickitem("fish4"));
-                break;
-            case "soup":
-                buttons.add(new clickitem("soup1"));
-                buttons.add(new clickitem("soup2"));
-                buttons.add(new clickitem("soup3"));
-                buttons.add(new clickitem("soup4"));
-                break;
-            case "salad":
-                buttons.add(new clickitem("salad1"));
-                buttons.add(new clickitem("salad2"));
-                buttons.add(new clickitem("salad3"));
-                buttons.add(new clickitem("salad4"));
-                break;
-            case "chicken":
-                buttons.add(new clickitem("chicken1"));
-                buttons.add(new clickitem("chicken2"));
-                buttons.add(new clickitem("chicken3"));
-                buttons.add(new clickitem("chicken4"));
-                break;
-            case "meat":
-                buttons.add(new clickitem("meat1"));
-                buttons.add(new clickitem("meat2"));
-                buttons.add(new clickitem("meat3"));
-                buttons.add(new clickitem("meat4"));
-                break;
+        buttons.clear();
+        for(int i = 0; i < 5; ++i){
+            clickitem click = new clickitem(tag);
+            buttons.add(click);
         }
-
-
     }
 }
 
@@ -87,16 +63,20 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<clickitem> buttons;
+    private Context context;
+    private FragmentManager manager;
 
-    DataAdapter(Context context, List<clickitem> buttons) {
+    DataAdapter(Context context, List<clickitem> buttons, FragmentManager manager) {
         this.buttons = buttons;
         this.inflater = LayoutInflater.from(context);
+        this.context = context;
+        this.manager = manager;
     }
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = inflater.inflate(R.layout.but, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, context, manager);
     }
 
     @Override
@@ -113,9 +93,16 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         Button button;
 
-        ViewHolder(View view){
+        ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
             button = (Button) view.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), "http://gg.gg/cw79w");
+                    manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+                }
+            });
 
         }
         public void bind(String text){

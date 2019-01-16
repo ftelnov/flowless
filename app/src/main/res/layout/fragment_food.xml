@@ -23,13 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="4dp"
             android:tag="breakfast"
             android:src="@drawable/ic_launcher_background" />
 
         <ImageButton
             android:id="@+id/secondTop"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
 
         <ImageButton
             android:id="@+id/firstCenter"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -57,7 +57,7 @@
 
         <ImageButton
             android:id="@+id/secondCenter"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -76,7 +76,7 @@
 
         <ImageButton
             android:id="@+id/firstBottom"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="4dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -86,7 +86,7 @@
         <ImageButton
             android:id="@+id/secondBottom"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="4dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:tag="meat"
