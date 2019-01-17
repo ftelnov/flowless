@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -64,12 +65,21 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String result = new String();
-                    Map<Integer, ArrayList<String>> map = new HashMap<>();
                     RetrofitRequest.getApi().getData(tag).enqueue(new Callback<List<GetModelCategory>>() {
                         @Override
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
-                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                            String result = new String();
+                            Map<Integer, ArrayList<String>> map = new HashMap<>();
+                            List<GetModelCategory> list = response.body();
+                            for (GetModelCategory adb : list) {
+                                ArrayList<String> arrayList = new ArrayList<String>();
+                                arrayList.add(adb.recipeTitle);
+                                arrayList.add(adb.recipeId.toString());
+                                map.put(adb.recipeId, arrayList);
+                            }
+                            Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
+                            CategoryFragment catFragment = CategoryFragment.newInstance(cat);
+                            fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                         }
 
                         @Override
@@ -77,14 +87,6 @@ public class FoodFragment extends Fragment {
                             Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                    ArrayList<String> arrayList = new ArrayList<String>();
-                    arrayList.add("error");
-                    arrayList.add(result);
-                    arrayList.add("http://gg.gg/cw7ad");
-                    map.put(-1, arrayList);
-                    Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
-                    CategoryFragment catFragment = CategoryFragment.newInstance(cat);
-                    fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                 }
             });
         }

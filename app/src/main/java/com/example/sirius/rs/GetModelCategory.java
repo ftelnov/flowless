@@ -19,4 +19,5 @@ public class GetModelCategory {
     @Expose
     public String recipeImage;
 
+
 }

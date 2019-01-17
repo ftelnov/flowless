@@ -87,10 +87,10 @@
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/fiol"
                 app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5"
+                app:mrb_temporaryPins="false"
+                app:mrb_tickEnd="750"
+                app:mrb_tickInterval="50"
+                app:mrb_tickStart="0"
                 tools:layout_editor_absoluteY="104dp" />
 
             <TextView
@@ -132,10 +132,10 @@
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/fiol"
                 app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5" />
+                app:mrb_temporaryPins="false"
+                app:mrb_tickEnd="100"
+                app:mrb_tickInterval="20"
+                app:mrb_tickStart="0" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -176,10 +176,10 @@
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/fiol"
                 app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5" />
+                app:mrb_temporaryPins="false"
+                app:mrb_tickEnd="100"
+                app:mrb_tickInterval="20"
+                app:mrb_tickStart="0" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -220,16 +220,16 @@
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/fiol"
                 app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
+                app:mrb_temporaryPins="false"
                 app:mrb_tickEnd="100"
-                app:mrb_tickInterval="10"
-                app:mrb_tickStart="50" />
+                app:mrb_tickInterval="20"
+                app:mrb_tickStart="0" />
 
             <CheckBox
                 android:id="@+id/allergen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Учитывать аллергию"
+                android:text="Учитывать аллергии"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp" />
 

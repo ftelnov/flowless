@@ -4,14 +4,12 @@ import android.widget.Button;
 
 public class ClickItem {
     String string;
-    String dest;
-    String root;
+    String id;
 
 
-    public ClickItem(String text, String dest, String root) {
+    public ClickItem(String text, String des) {
         this.string = text;
-        this.dest = dest;
-        this.root = root;
+        this.id = des;
     }
 
     public String getText() {
@@ -22,19 +20,11 @@ public class ClickItem {
         this.string = text;
     }
 
-    public void setRoot(String text) {
-        this.root = text;
+    public String getIden() {
+        return this.id;
     }
 
-    public void setDest(String text) {
-        this.dest = dest;
-    }
-
-    public String getRoot() {
-        return this.root;
-    }
-
-    public String getDest() {
-        return this.dest;
+    public String setIden(String id) {
+        return this.id;
     }
 }

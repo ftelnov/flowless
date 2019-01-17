@@ -51,7 +51,7 @@ public class CategoryFragment extends Fragment {
         buttons.clear();
         Map<Integer, ArrayList<String>> map =  cat.getReceipts();
         for(ArrayList<String> arr: map.values()){
-            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2));
+            ClickItem click = new ClickItem(arr.get(0), arr.get(1));
             buttons.add(click);
         }
     }
@@ -80,7 +80,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
         ClickItem button = buttons.get(position);
-        holder.bind(button.getText(), button.getDest(), button.getRoot());
+        holder.bind(button.getText(), button.getIden());
     }
 
     @Override
@@ -90,8 +90,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         Button button;
-        String root;
-        String dest;
+        String id;
 
         ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
@@ -99,16 +98,15 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), root, dest);
+                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), button.getTag().toString());
                     manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                 }
             });
 
         }
-        public void bind(String text, String dest, String root){
+        public void bind(String text, String id){
             button.setText(text);
-            this.root = root;
-            this.dest = dest;
+            button.setTag(id);
         }
     }
 

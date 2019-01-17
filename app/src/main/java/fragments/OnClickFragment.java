@@ -14,12 +14,11 @@ import com.squareup.picasso.Picasso;
 
 
 public class OnClickFragment extends Fragment {
-    public static OnClickFragment newInstance(String name, String root, String dest) {
+    public static OnClickFragment newInstance(String name, String id) {
         OnClickFragment fragment = new OnClickFragment();
         Bundle args = new Bundle();
         args.putString("name", name);
-        args.putString("root", root);
-        args.putString("dest", dest);
+        args.putString("id", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,10 +31,7 @@ public class OnClickFragment extends Fragment {
         String name = (String) getArguments().getString("name");
         TextView textView = (TextView) view.findViewById(R.id.nameView);
         textView.setText(name);
-        String root = (String) getArguments().getString("root");
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView2);
-        Picasso.get().load(root).into(imageView);
-        String dest = (String) getArguments().getString("dest");
+        String dest = (String) getArguments().getString("id");
         TextView textView2 = (TextView) view.findViewById(R.id.textView7);
         textView2.setText(dest);
         return view;
