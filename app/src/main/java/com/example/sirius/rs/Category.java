@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class category implements Serializable {
+public class Category implements Serializable {
     private Map<Integer, ArrayList<String>> map;
     private String name;
     private Integer id;
     private String imageRoot;
 
-    category(String name, Integer id, String imageRoot, Map<Integer, ArrayList<String>> map){
+    public Category(String name, Integer id, String imageRoot, Map<Integer, ArrayList<String>> map){
         this.map = map;
         this.name = name;
         this.id = id;

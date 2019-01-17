@@ -1,4 +1,4 @@
-package com.example.sirius.rs;
+package fragments;
 
 
 import android.os.Bundle;
@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.sirius.rs.R;
+
 public class FoodListFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -1,29 +1,24 @@
 package com.example.sirius.rs;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.media.MediaPlayer;
-import android.widget.Toast;
 import android.content.pm.ActivityInfo;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import fragments.FoodFragment;
+import fragments.FoodListFragment;
+import fragments.NotificationFragment;
+import fragments.ProfileFragment;
+import fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
     boolean flag = false;
@@ -31,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     final Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     final Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

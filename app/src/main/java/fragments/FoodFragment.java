@@ -1,28 +1,28 @@
-package com.example.sirius.rs;
+package fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.AppCompatButton;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.sirius.rs.Category;
+import com.example.sirius.rs.GetModelCategory;
+import com.example.sirius.rs.R;
+import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -64,19 +64,25 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        Response response = RetrofitRequest.getApi().getData(tag).execute();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    String result = new String();
                     Map<Integer, ArrayList<String>> map = new HashMap<>();
+                    RetrofitRequest.getApi().getData(tag).enqueue(new Callback<List<GetModelCategory>>() {
+                        @Override
+                        public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
+                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
+                            Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     ArrayList<String> arrayList = new ArrayList<String>();
-                    arrayList.add("flex");
-                    arrayList.add("dasdfdgdfgdfhfghfg");
+                    arrayList.add("error");
+                    arrayList.add(result);
                     arrayList.add("http://gg.gg/cw7ad");
                     map.put(-1, arrayList);
-                    category cat = new category(tag, -15, "http://gg.gg/cw7ad", map);
+                    Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
                     CategoryFragment catFragment = CategoryFragment.newInstance(cat);
                     fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                 }

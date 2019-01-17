@@ -22,6 +22,6 @@ public class RetrofitRequest extends Application {
     }
 
     public static CategoryApi getApi() {
-        return categoryApi;
-    }
+    return categoryApi;
+}
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="99"
-    tools:context=".FoodFragment">
+    tools:context="fragments.FoodFragment">
 
 
     <LinearLayout

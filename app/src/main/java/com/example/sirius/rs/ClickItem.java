@@ -2,13 +2,13 @@ package com.example.sirius.rs;
 
 import android.widget.Button;
 
-public class clickitem {
+public class ClickItem {
     String string;
     String dest;
     String root;
 
 
-    public clickitem(String text, String dest, String root) {
+    public ClickItem(String text, String dest, String root) {
         this.string = text;
         this.dest = dest;
         this.root = root;

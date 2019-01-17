@@ -1,4 +1,4 @@
-package com.example.sirius.rs;
+package fragments;
 
 //ArrayList первым значением берет имя рецепта, вторым - описание, третьим - рут картинки
 import android.content.Context;
@@ -12,26 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import com.example.sirius.rs.Category;
+import com.example.sirius.rs.ClickItem;
+import com.example.sirius.rs.R;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 
 public class CategoryFragment extends Fragment {
-    List<clickitem> buttons = new ArrayList<>();
-    public static CategoryFragment newInstance(category tag) {
+    List<ClickItem> buttons = new ArrayList<>();
+    public static CategoryFragment newInstance(Category tag) {
         CategoryFragment catFragment = new CategoryFragment();
         Bundle args = new Bundle();
         args.putSerializable("category", tag);
@@ -44,7 +37,7 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category,
                 container, false);
-        category category = (category) getArguments().getSerializable("category");
+        Category category = (Category) getArguments().getSerializable("category");
         setInitialData(view, category);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         DataAdapter adapter = new DataAdapter(getContext(), buttons, getFragmentManager());
@@ -54,11 +47,11 @@ public class CategoryFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         return view;
     }
-    private void setInitialData(View view, category cat){
+    private void setInitialData(View view, Category cat){
         buttons.clear();
         Map<Integer, ArrayList<String>> map =  cat.getReceipts();
         for(ArrayList<String> arr: map.values()){
-            clickitem click = new clickitem(arr.get(0), arr.get(1), arr.get(2));
+            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2));
             buttons.add(click);
         }
     }
@@ -67,11 +60,11 @@ public class CategoryFragment extends Fragment {
 class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<clickitem> buttons;
+    private List<ClickItem> buttons;
     private Context context;
     private FragmentManager manager;
 
-    DataAdapter(Context context, List<clickitem> buttons, FragmentManager manager) {
+    DataAdapter(Context context, List<ClickItem> buttons, FragmentManager manager) {
         this.buttons = buttons;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -86,7 +79,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
-        clickitem button = buttons.get(position);
+        ClickItem button = buttons.get(position);
         holder.bind(button.getText(), button.getDest(), button.getRoot());
     }
 
