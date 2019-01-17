@@ -1,6 +1,6 @@
 package com.example.sirius.rs;
 
-
+//ArrayList первым значением берет имя рецепта, вторым - описание, третьим - рут картинки
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -27,10 +30,10 @@ import retrofit2.http.Query;
 
 public class CategoryFragment extends Fragment {
     List<clickitem> buttons = new ArrayList<>();
-    public static CategoryFragment newInstance(String tag) {
+    public static CategoryFragment newInstance(category tag) {
         CategoryFragment catFragment = new CategoryFragment();
         Bundle args = new Bundle();
-        args.putString("tag", tag);
+        args.putSerializable("category", tag);
         catFragment.setArguments(args);
         return catFragment;
     }
@@ -40,8 +43,8 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category,
                 container, false);
-        String tag = getArguments().getString("tag");
-        setInitialData(view, tag);
+        category category = (category) getArguments().getSerializable("category");
+        setInitialData(view, category);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         DataAdapter adapter = new DataAdapter(getContext(), buttons, getFragmentManager());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -50,10 +53,11 @@ public class CategoryFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         return view;
     }
-    private void setInitialData(View view, String tag){
+    private void setInitialData(View view, category cat){
         buttons.clear();
-        for(int i = 0; i < 5; ++i){
-            clickitem click = new clickitem(tag);
+        Map<Integer, ArrayList<String>> map =  cat.getReceipts();
+        for(ArrayList<String> arr: map.values()){
+            clickitem click = new clickitem(arr.get(0), arr.get(1), arr.get(2));
             buttons.add(click);
         }
     }
@@ -82,7 +86,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
         clickitem button = buttons.get(position);
-        holder.bind(button.string);
+        holder.bind(button.getText(), button.getDest(), button.getRoot());
     }
 
     @Override
@@ -92,6 +96,8 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         Button button;
+        String root;
+        String dest;
 
         ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
@@ -99,15 +105,16 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), "http://gg.gg/cw79w");
+                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), root, dest);
                     manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                 }
             });
 
         }
-        public void bind(String text){
+        public void bind(String text, String dest, String root){
             button.setText(text);
-
+            this.root = root;
+            this.dest = dest;
         }
     }
 

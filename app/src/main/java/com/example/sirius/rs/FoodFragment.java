@@ -17,8 +17,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class FoodFragment extends Fragment {
@@ -59,7 +61,14 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CategoryFragment catFragment = CategoryFragment.newInstance(tag);
+                    Map<Integer, ArrayList<String>> map = new HashMap<>();
+                    ArrayList<String> arrayList = new ArrayList<String>();
+                    arrayList.add("flex");
+                    arrayList.add("dasdfdgdfgdfhfghfg");
+                    arrayList.add("http://gg.gg/cw7ad");
+                    map.put(-1, arrayList);
+                    category cat = new category(tag, -15, "http://gg.gg/cw7ad", map);
+                    CategoryFragment catFragment = CategoryFragment.newInstance(cat);
                     fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                 }
             });
