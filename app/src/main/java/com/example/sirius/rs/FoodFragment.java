@@ -16,11 +16,14 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Response;
 
 
 public class FoodFragment extends Fragment {
@@ -61,6 +64,12 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    try {
+                        Response response = RetrofitRequest.getApi().getData(tag).execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Map<Integer, ArrayList<String>> map = new HashMap<>();
                     ArrayList<String> arrayList = new ArrayList<String>();
                     arrayList.add("flex");
