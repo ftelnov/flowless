@@ -36,6 +36,20 @@
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="11dp"
+                android:text="Завтраки"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@+id/firstTop"
+                app:layout_constraintEnd_toEndOf="@+id/firstTop"
+                app:layout_constraintStart_toStartOf="@+id/firstTop"
+                app:layout_constraintTop_toTopOf="@+id/firstTop" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -47,7 +61,7 @@
             <ImageButton
                 android:id="@+id/secondTop"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_launcher_background"
                 android:tag="1"
@@ -55,6 +69,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Салаты"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/secondTop"
+                app:layout_constraintEnd_toEndOf="@+id/secondTop"
+                app:layout_constraintStart_toStartOf="@+id/secondTop"
+                app:layout_constraintTop_toTopOf="@+id/secondTop" />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
@@ -88,6 +117,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Супы"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/firstCenter"
+                app:layout_constraintEnd_toEndOf="@+id/firstCenter"
+                app:layout_constraintStart_toEndOf="@+id/firstCenter"
+                app:layout_constraintStart_toStartOf="@+id/firstCenter"
+                app:layout_constraintTop_toTopOf="@+id/firstCenter" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -107,6 +151,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Рыба"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/secondCenter"
+                app:layout_constraintEnd_toEndOf="@+id/secondCenter"
+                app:layout_constraintStart_toEndOf="@+id/secondCenter"
+                app:layout_constraintStart_toStartOf="@+id/secondCenter"
+                app:layout_constraintTop_toTopOf="@+id/secondCenter" />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
@@ -139,6 +198,21 @@
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Курица"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/firstBottom"
+                app:layout_constraintEnd_toEndOf="@+id/firstBottom"
+                app:layout_constraintStart_toEndOf="@+id/firstBottom"
+                app:layout_constraintStart_toStartOf="@+id/firstBottom"
+                app:layout_constraintTop_toTopOf="@+id/firstBottom" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -158,6 +232,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Мясо"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+
+                app:layout_constraintBottom_toBottomOf="@+id/secondBottom"
+                app:layout_constraintEnd_toEndOf="@+id/secondBottom"
+                app:layout_constraintStart_toEndOf="@+id/secondBottom"
+                app:layout_constraintStart_toStartOf="@+id/secondBottom"
+                app:layout_constraintTop_toTopOf="@+id/secondBottom"
+                />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
