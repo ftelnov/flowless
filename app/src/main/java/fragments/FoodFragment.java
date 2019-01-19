@@ -89,7 +89,7 @@ public class FoodFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
-                            Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

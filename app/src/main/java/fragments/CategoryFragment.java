@@ -123,7 +123,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         }
         public void bind(String text, String id, String time, String imageRoot){
-            textView.setText(text + '\n' + time);
+            textView.setText(text + '\n' + "Время готовки: " + time);
             textView.setTag(id);
             if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
         }

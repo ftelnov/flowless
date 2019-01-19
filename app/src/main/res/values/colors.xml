@@ -3,7 +3,8 @@
     <color name="colorPrimary">#ff9c14</color>
     <color name="colorPrimaryDark">#e59001</color>
     <color name="colorAccent">#e59001</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="menu">#aaadb2</color>
     <color name="fiol">#ff4400</color>
+    <color name="black">#000000</color>
 </resources>
