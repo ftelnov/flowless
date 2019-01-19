@@ -1,6 +1,7 @@
 package fragments;
 
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -57,22 +58,26 @@ public class OnClickFragment extends Fragment {
                 }
                 GetModelRecipe list = response.body();
                 View tempView = getView();
-                TextView name = (TextView)tempView.findViewById(R.id.nameView);
+                TextView name = (TextView) tempView.findViewById(R.id.nameView);
                 name.setText(list.recipeTitle.toString());
-                TextView callori = (TextView)tempView.findViewById(R.id.callori);
+                TextView callori = (TextView) tempView.findViewById(R.id.callori);
                 callori.setText(callori.getText() + list.calories.toString() + '\n');
-                TextView proteins = (TextView)tempView.findViewById(R.id.proteins);
+                TextView proteins = (TextView) tempView.findViewById(R.id.proteins);
                 proteins.setText(proteins.getText() + list.proteins.toString() + '\n');
-                TextView fats = (TextView)tempView.findViewById(R.id.fats);
+                TextView fats = (TextView) tempView.findViewById(R.id.fats);
                 fats.setText(fats.getText() + list.fats.toString() + '\n');
-                TextView carbon = (TextView)tempView.findViewById(R.id.carbohydrates);
+                TextView carbon = (TextView) tempView.findViewById(R.id.carbohydrates);
                 carbon.setText(carbon.getText() + list.carbohydrates.toString() + '\n');
-                TextView timecook = (TextView)tempView.findViewById(R.id.time);
+                TextView timecook = (TextView) tempView.findViewById(R.id.time);
                 timecook.setText(timecook.getText() + list.timeOfCooking.toString() + '\n');
-                TextView ingrid = (TextView)tempView.findViewById(R.id.ingrid);
+                TextView ingrid = (TextView) tempView.findViewById(R.id.ingrid);
                 ingrid.setText(ingrid.getText() + list.recipeIngredients.toString() + '\n');
-                TextView portions = (TextView)tempView.findViewById(R.id.portions);
+                TextView portions = (TextView) tempView.findViewById(R.id.portions);
                 portions.setText(portions.getText() + list.portions.toString() + '\n');
+                ImageView imageView = (ImageView) tempView.findViewById(R.id.imageView2);
+                if (!list.recipeImage.isEmpty()) {
+                    Picasso.get().load(list.recipeImage).into(imageView);
+                }
             }
 
             @Override
@@ -83,7 +88,7 @@ public class OnClickFragment extends Fragment {
         return view;
     }
 
-    public View getView(){
+    public View getView() {
         return this.view;
     }
 }

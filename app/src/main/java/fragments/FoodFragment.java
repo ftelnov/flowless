@@ -46,9 +46,9 @@ public class FoodFragment extends Fragment {
         ImageButton firstBottom = (ImageButton) view.findViewById(R.id.firstBottom);
         ImageButton secondBottom = (ImageButton) view.findViewById(R.id.secondBottom);
         final FragmentManager fragmentManager = getFragmentManager();
-        Picasso.get().load("https://images.wallpaperscraft.ru/image/zavtrak_kruassany_kofe_yajtsa_frukty_95625_1920x1080.jpg").into(firstTop);
-        Picasso.get().load("https://images.wallpaperscraft.ru/image/salat_ovoschi_vkusno_dieticheskoe_71637_1920x1080.jpg").into(secondTop);
-        Picasso.get().load("https://images.wallpaperscraft.ru/image/ustricy_sup_posuda_ovoschi_79003_1920x1080.jpg").into(firstCenter);
+        Picasso.get().load("http://gg.gg/cxkvf").into(firstTop);
+        Picasso.get().load("http://gg.gg/cxkvh").into(secondTop);
+        Picasso.get().load("http://gg.gg/cxkvj").into(firstCenter);
         Picasso.get().load("http://gg.gg/cw79w").into(secondCenter);
         Picasso.get().load("http://gg.gg/cw7a8").into(firstBottom);
         Picasso.get().load("http://gg.gg/cw7ad").into(secondBottom);
@@ -78,6 +78,8 @@ public class FoodFragment extends Fragment {
                                 ArrayList<String> arrayList = new ArrayList<String>();
                                 arrayList.add(adb.recipeTitle);
                                 arrayList.add(adb.recipeId.toString());
+                                arrayList.add(adb.timeOfCooking.toString());
+                                arrayList.add(adb.recipeImage);
                                 map.put(adb.recipeId, arrayList);
                             }
                             Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);

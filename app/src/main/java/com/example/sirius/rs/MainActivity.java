@@ -21,9 +21,6 @@ import fragments.ProfileFragment;
 import fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
-    boolean flag = false;
-    boolean flagSearch = false;
-    private Context context;
     final Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     final Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
 

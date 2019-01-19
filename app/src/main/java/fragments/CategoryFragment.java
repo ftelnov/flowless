@@ -3,6 +3,7 @@ package fragments;
 //ArrayList первым значением берет имя рецепта, вторым - описание, третьим - рут картинки
 import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import Objects.Category;
 import Objects.ClickItem;
 import com.example.sirius.rs.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +55,7 @@ public class CategoryFragment extends Fragment {
         buttons.clear();
         Map<Integer, ArrayList<String>> map =  cat.getReceipts();
         for(ArrayList<String> arr: map.values()){
-            ClickItem click = new ClickItem(arr.get(0), arr.get(1));
+            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
             buttons.add(click);
         }
     }
@@ -80,7 +84,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
         ClickItem button = buttons.get(position);
-        holder.bind(button.getText(), button.getIden());
+        holder.bind(button.getText(), button.getIden(), button.getTime(), button.getImageRoot());
     }
 
     @Override
@@ -89,24 +93,28 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        Button button;
-        String id;
+        ConstraintLayout lay;
+        TextView textView;
+        ImageView imageView;
 
         ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
-            button = (Button) view.findViewById(R.id.button);
-            button.setOnClickListener(new View.OnClickListener() {
+            lay = (ConstraintLayout) view.findViewById(R.id.constr);
+            textView = lay.findViewById(R.id.button);
+            imageView = lay.findViewById(R.id.imageView);
+            lay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OnClickFragment fragment = OnClickFragment.newInstance(button.getText().toString(), button.getTag().toString());
+                    OnClickFragment fragment = OnClickFragment.newInstance(textView.getText().toString(), textView.getTag().toString());
                     manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                 }
             });
 
         }
-        public void bind(String text, String id){
-            button.setText(text);
-            button.setTag(id);
+        public void bind(String text, String id, String time, String imageRoot){
+            textView.setText(text + '\n' + time);
+            textView.setTag(id);
+            if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
         }
     }
 
