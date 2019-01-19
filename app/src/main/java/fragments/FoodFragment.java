@@ -1,6 +1,8 @@
 package fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,16 +13,19 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import Objects.Category;
+
 import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,11 +40,13 @@ public class FoodFragment extends Fragment {
     }
 
 
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food,
                 container, false);
-        ImageButton firstTop = (ImageButton) view.findViewById(R.id.firstTop);
+        final ImageButton firstTop = (ImageButton) view.findViewById(R.id.firstTop);
         ImageButton secondTop = (ImageButton) view.findViewById(R.id.secondTop);
         ImageButton firstCenter = (ImageButton) view.findViewById(R.id.firstCenter);
         ImageButton secondCenter = (ImageButton) view.findViewById(R.id.secondCenter);
@@ -89,7 +96,7 @@ public class FoodFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
-                            Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

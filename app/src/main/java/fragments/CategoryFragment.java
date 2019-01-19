@@ -103,15 +103,17 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return buttons.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout lay;
         TextView textView;
+        TextView timeView;
         ImageView imageView;
 
         ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
             lay = (ConstraintLayout) view.findViewById(R.id.constr);
             textView = lay.findViewById(R.id.button);
+            timeView = lay.findViewById(R.id.time);
             imageView = lay.findViewById(R.id.imageView);
             lay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,8 +125,9 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         }
         public void bind(String text, String id, String time, String imageRoot){
-            textView.setText(text + '\n' + time);
+            textView.setText(text);
             textView.setTag(id);
+            timeView.setText(time + " мин.");
             if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
         }
     }

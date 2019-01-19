@@ -36,4 +36,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.appyvet:materialrangebar:1.4.4'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'jp.wasabeef:glide-transformations:1.0.6'
+    implementation 'jp.wasabeef:recyclerview-animators:1.2.2'
+    implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.0'
 }
