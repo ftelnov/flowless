@@ -2,6 +2,8 @@ package fragments;
 
 //ArrayList первым значением берет имя рецепта, вторым - описание, третьим - рут картинки
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +50,14 @@ public class CategoryFragment extends Fragment {
         DataAdapter adapter = new DataAdapter(getContext(), buttons, getFragmentManager());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        float dip = 4f;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dip,
+                r.getDisplayMetrics()
+        );
+        recyclerView.addItemDecoration(new SpacesItemDecoration((int) px));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return view;
@@ -117,6 +128,21 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
         }
     }
+}
 
+class SpacesItemDecoration extends RecyclerView.ItemDecoration
+{
+    private int space;
 
+    public SpacesItemDecoration(int space)
+    {
+        this.space = space;
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
+    {
+        outRect.top = space;
+        outRect.bottom = space;
+    }
 }
