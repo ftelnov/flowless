@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.sirius.rs.Category;
+import Objects.Category;
 import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
@@ -19,7 +19,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -65,11 +64,15 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RetrofitRequest.getApi().getData(tag).enqueue(new Callback<List<GetModelCategory>>() {
+                    RetrofitRequest.getCategoryApi().getData(tag).enqueue(new Callback<List<GetModelCategory>>() {
                         @Override
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
-                            String result = new String();
+
                             Map<Integer, ArrayList<String>> map = new HashMap<>();
+                            if (response.body() == null) {
+                                Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                             List<GetModelCategory> list = response.body();
                             for (GetModelCategory adb : list) {
                                 ArrayList<String> arrayList = new ArrayList<String>();

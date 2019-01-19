@@ -1,4 +1,4 @@
-package com.example.sirius.rs;
+package Api;
 
 import com.example.sirius.rs.GetModelCategory;
 

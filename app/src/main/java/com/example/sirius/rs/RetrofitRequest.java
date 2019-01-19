@@ -2,12 +2,16 @@ package com.example.sirius.rs;
 
 import android.app.Application;
 
+import Api.CategoryApi;
+import Api.RecipeApi;
+import Objects.Recipe;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitRequest extends Application {
 
     private static CategoryApi categoryApi;
+    private static RecipeApi recipeApi;
     private Retrofit retrofit;
 
     @Override
@@ -19,9 +23,14 @@ public class RetrofitRequest extends Application {
                 .addConverterFactory(GsonConverterFactory.create()) //Конвертер, необходимый для преобразования JSON'а в объекты
                 .build();
         categoryApi = retrofit.create(CategoryApi.class); //Создаем объект, при помощи которого будем выполнять запросы
+        recipeApi = retrofit.create(RecipeApi.class);
     }
 
-    public static CategoryApi getApi() {
-    return categoryApi;
-}
+    public static CategoryApi getCategoryApi() {
+        return categoryApi;
+    }
+
+    public static RecipeApi getRecipeApi() {
+        return recipeApi;
+    }
 }

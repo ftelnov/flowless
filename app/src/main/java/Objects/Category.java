@@ -1,4 +1,4 @@
-package com.example.sirius.rs;
+package Objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;

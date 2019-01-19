@@ -1,8 +1,7 @@
-package com.example.sirius.rs;
+package Objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Categories {
     private ArrayList<Category> arrayList;

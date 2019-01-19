@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.sirius.rs.Category;
-import com.example.sirius.rs.ClickItem;
+import Objects.Category;
+import Objects.ClickItem;
 import com.example.sirius.rs.R;
 
 import java.util.ArrayList;

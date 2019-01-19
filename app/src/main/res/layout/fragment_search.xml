@@ -47,15 +47,15 @@
             </SearchView>
 
             <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Калории:"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/rangebar1"
