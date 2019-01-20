@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RecipeByParamApi {
-    @GET("/recipebyparam")
+    @GET("/recipes")
     Call<GetModelRecipe> getData(@Query("name") String resourceName,
                                  @Query("calories_min") int calories_min,
                                  @Query("calories_max") int calories_max,

@@ -16,17 +16,30 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.appyvet.materialrangebar.RangeBar;
+import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
+import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import Objects.Category;
 import Objects.ClickItem;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SearchFragment extends Fragment {
@@ -68,6 +81,50 @@ public class SearchFragment extends Fragment {
         );
         recyclerView.addItemDecoration(new fragments.SpacesItemDecoration((int) px));
         recyclerView.setLayoutManager(layoutManager);
+        //
+        final RangeBar rangeBarCalori = (RangeBar) view.findViewById(R.id.rangebarCalori);
+        final RangeBar rangeBarFats = (RangeBar) view.findViewById(R.id.rangebarFats);
+        final RangeBar rangeBarCarbo = (RangeBar) view.findViewById(R.id.rangebarCarbo);
+        final RangeBar rangeBarProteins = (RangeBar) view.findViewById(R.id.rangebarProteins);
+        final CheckBox alergen = (CheckBox) view.findViewById(R.id.allergen);
+        //
+        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                RetrofitRequest.getRecipeByParamApi().getData(s, rangeBarCalori.getLeft(), rangeBarCalori.getRight(), rangeBarFats.getLeft(), rangeBarFats.getRight(), rangeBarProteins.getLeft(), rangeBarProteins.getRight(),rangeBarCarbo.getLeft(), rangeBarCarbo.getRight(), alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
+                    @Override
+                    public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
+
+                        Map<Integer, ArrayList<String>> map = new HashMap<>();
+                        if (response.body() == null) {
+                            Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        List<GetModelCategory> list = response.body();
+                        for (GetModelCategory adb : list) {
+                            ArrayList<String> arrayList = new ArrayList<String>();
+                            arrayList.add(adb.recipeTitle);
+                            arrayList.add(adb.recipeId.toString());
+                            arrayList.add(adb.timeOfCooking.toString());
+                            arrayList.add(adb.recipeImage);
+                            map.put(adb.recipeId, arrayList);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
+                        Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return false;
+            }
+        });
         return view;
     }
     public Boolean getFlag(){

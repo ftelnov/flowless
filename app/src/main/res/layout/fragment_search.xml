@@ -103,7 +103,7 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <com.appyvet.materialrangebar.RangeBar
-                    android:id="@+id/rangebar1"
+                    android:id="@+id/rangebarCalori"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
@@ -144,10 +144,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.493"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rangebar1" />
+                    app:layout_constraintTop_toBottomOf="@+id/rangebarCalori" />
 
                 <com.appyvet.materialrangebar.RangeBar
-                    android:id="@+id/rangebar"
+                    android:id="@+id/rangebarProteins"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
@@ -188,10 +188,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.493"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rangebar1" />
+                    app:layout_constraintTop_toBottomOf="@+id/rangebarProteins" />
 
                 <com.appyvet.materialrangebar.RangeBar
-                    android:id="@+id/rangebar2"
+                    android:id="@+id/rangebarFats"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
@@ -232,10 +232,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.493"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rangebar1" />
+                    app:layout_constraintTop_toBottomOf="@+id/rangebarFats" />
 
                 <com.appyvet.materialrangebar.RangeBar
-                    android:id="@+id/rangebar3"
+                    android:id="@+id/rangebarCarbo"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
@@ -269,7 +269,8 @@
                     android:layout_height="match_parent"
                     android:text="Учитывать аллергии"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import Api.CategoryApi;
 import Api.RecipeApi;
+import Api.RecipeByParamApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -11,6 +12,7 @@ public class RetrofitRequest extends Application {
 
     private static CategoryApi categoryApi;
     private static RecipeApi recipeApi;
+    private static RecipeByParamApi recipeByParamApi;
     private Retrofit retrofit;
 
     @Override
@@ -23,6 +25,7 @@ public class RetrofitRequest extends Application {
                 .build();
         categoryApi = retrofit.create(CategoryApi.class); //Создаем объект, при помощи которого будем выполнять запросы
         recipeApi = retrofit.create(RecipeApi.class);
+        recipeByParamApi = retrofit.create(RecipeByParamApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -31,5 +34,9 @@ public class RetrofitRequest extends Application {
 
     public static RecipeApi getRecipeApi() {
         return recipeApi;
+    }
+
+    public static RecipeByParamApi getRecipeByParamApi() {
+        return recipeByParamApi;
     }
 }
