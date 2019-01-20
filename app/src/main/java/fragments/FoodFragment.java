@@ -1,8 +1,6 @@
 package fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,14 +16,12 @@ import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,12 +49,13 @@ public class FoodFragment extends Fragment {
         ImageButton firstBottom = (ImageButton) view.findViewById(R.id.firstBottom);
         ImageButton secondBottom = (ImageButton) view.findViewById(R.id.secondBottom);
         final FragmentManager fragmentManager = getFragmentManager();
-        Picasso.get().load("http://gg.gg/cxkvf").into(firstTop);
-        Picasso.get().load("http://gg.gg/cxkvh").into(secondTop);
-        Picasso.get().load("http://gg.gg/cxkvj").into(firstCenter);
-        Picasso.get().load("http://gg.gg/cw79w").into(secondCenter);
-        Picasso.get().load("http://gg.gg/cw7a8").into(firstBottom);
-        Picasso.get().load("http://gg.gg/cw7ad").into(secondBottom);
+        final BlurTransformation blurTransformation = new BlurTransformation(getActivity());
+        Picasso.get().load("http://gg.gg/cxkvf").transform(blurTransformation).into(firstTop);
+        Picasso.get().load("http://gg.gg/cxkvh").transform(blurTransformation).into(secondTop);
+        Picasso.get().load("http://gg.gg/cxkvj").transform(blurTransformation).into(firstCenter);
+        Picasso.get().load("http://gg.gg/cw79w").transform(blurTransformation).into(secondCenter);
+        Picasso.get().load("http://gg.gg/cw7a8").transform(blurTransformation).into(firstBottom);
+        Picasso.get().load("http://gg.gg/cw7ad").transform(blurTransformation).into(secondBottom);
         List<ImageButton> Array = new ArrayList<ImageButton>();
         Array.add(firstTop);
         Array.add(secondBottom);

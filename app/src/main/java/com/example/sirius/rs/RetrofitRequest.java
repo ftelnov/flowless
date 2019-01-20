@@ -4,7 +4,6 @@ import android.app.Application;
 
 import Api.CategoryApi;
 import Api.RecipeApi;
-import Objects.Recipe;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
