@@ -19,8 +19,8 @@ public interface RecipeByParamApi {
                                          @Query("fats_max") int fats_max,
                                          @Query("proteins_min") int proteins_min,
                                          @Query("proteins_max") int proteins_max,
-                                         @Query("calrbohyd_min") int calrbonydrates_min,
-                                         @Query("calrbohyd_max") int calrbonydrates_max,
+                                         @Query("carbohyd_min") int calrbonydrates_min,
+                                         @Query("carbohyd_max") int calrbonydrates_max,
                                          @Query("alergen") boolean flag);
 
 }

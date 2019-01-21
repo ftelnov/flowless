@@ -108,13 +108,21 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                RetrofitRequest.getRecipeByParamApi().getData(s, rangeBarCalori.getLeft(), rangeBarCalori.getRight(), rangeBarFats.getLeft(), rangeBarFats.getRight(), rangeBarProteins.getLeft(), rangeBarProteins.getRight(), rangeBarCarbo.getLeft(), rangeBarCarbo.getRight(), alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
+                RetrofitRequest.getRecipeByParamApi().getData(s, Integer.parseInt(rangeBarCalori.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
+                        Integer.parseInt(rangeBarFats.getLeftPinValue()), Integer.parseInt(rangeBarFats.getRightPinValue()),
+                        Integer.parseInt(rangeBarProteins.getLeftPinValue()), Integer.parseInt(rangeBarProteins.getRightPinValue()),
+                        Integer.parseInt(rangeBarCarbo.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
+                        alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
                     @Override
                     public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 
                         HashMap<Integer, ArrayList<String>> map = new HashMap<>();
+                        setFlag(false);
+                        button.setImageResource(R.drawable.arrowdown_light);
+                        textView.setText("Показать подробности поиска");
+                        linearLayout.setVisibility(View.GONE);
                         if (response.body() == null) {
-                            Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
+                            buttons.clear();
                             return;
                         }
                         List<GetModelCategory> list = response.body();
@@ -142,6 +150,8 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+        fragments.DataAdapter adapter = new fragments.DataAdapter(getContext(), buttons, getFragmentManager());
+        recyclerView.setAdapter(adapter);
         return view;
     }
 

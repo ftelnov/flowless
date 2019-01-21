@@ -19,6 +19,9 @@ public class ProfileFragment extends Fragment {
     public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
     public  ImageButton imageButton;
+    private String token;
+    private String user_name;
+    private String user_sername;
 
 
     public void onResume() {
