@@ -104,9 +104,9 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onResponse(Call<GetModelRegister> call, Response<GetModelRegister> response) {
                             if (Boolean.parseBoolean(response.body().access)) {
-                                Toast.makeText(getActivity(), "Вы успешно зарегистрированы!", Toast.LENGTH_SHORT);
+                                Toast.makeText(getActivity(), "Вы успешно зарегистрированы!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getActivity(), "Проверьте почту и логин, такой пользователь уже есть в базе данных!", Toast.LENGTH_LONG);
+                                Toast.makeText(getActivity(), "Проверьте почту и логин, такой пользователь уже есть в базе данных!", Toast.LENGTH_LONG).show();
 
                             }
                         }
