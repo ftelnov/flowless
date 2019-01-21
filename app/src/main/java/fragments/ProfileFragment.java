@@ -1,7 +1,7 @@
 package fragments;
 
 
-import android.media.Image;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -9,27 +9,22 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.sirius.rs.GetModelCategory;
-import com.example.sirius.rs.GetModelRegister;
 import com.example.sirius.rs.R;
+import com.example.sirius.rs.RegisterBody;
 import com.example.sirius.rs.RetrofitRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +36,11 @@ public class ProfileFragment extends Fragment {
     public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
     public ImageButton imageButton;
     private String token;
+    private Boolean flag_login = false;
+    private Boolean flag_password = false;
+    private Boolean flag_password2 = false;
+    private Boolean flag_email = false;
+    ValueAnimator animator;
     Pattern pattern = Pattern.compile(
             "[" +
                     "a-zA-Z" +
@@ -56,7 +56,6 @@ public class ProfileFragment extends Fragment {
 
     private String user_name;
     private String user_sername;
-    private WebView webView;
 
 
     public void onResume() {
@@ -88,8 +87,16 @@ public class ProfileFragment extends Fragment {
         final ImageView imagePassword = (ImageView) view.findViewById(R.id.accept_password);
         final ImageView imagePassword_2 = (ImageView) view.findViewById(R.id.accept_password2);
         final ImageView imageEmail = (ImageView) view.findViewById(R.id.accept_email);
+        final AuthFragment authFragment = new AuthFragment();
         //
         Button button = (Button) view.findViewById(R.id.register);
+        Button button1 = (Button) view.findViewById(R.id.auth);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, authFragment).addToBackStack(null).commit();
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,20 +107,27 @@ public class ProfileFragment extends Fragment {
                 if (!(checkEmail && checkLog && checkPass && checkPass2)) {
                     Toast.makeText(getActivity(), "Что-то пошло не так. Проверьте правильность введенных данных!", Toast.LENGTH_SHORT).show();
                 } else {
-                    RetrofitRequest.getRegisterApi().getATruth(loginReg.getText().toString(), passwordReg.getText().toString(), emailReg.getText().toString()).enqueue(new Callback<GetModelRegister>() {
+                    RegisterBody registerBody = new RegisterBody();
+                    registerBody.login = loginReg.getText().toString();
+                    registerBody.mail = emailReg.getText().toString();
+                    registerBody.password = passwordReg.getText().toString();
+                    RetrofitRequest.getRegisterApi().getATruth(registerBody).enqueue(new Callback<ResponseBody>() {
                         @Override
-                        public void onResponse(Call<GetModelRegister> call, Response<GetModelRegister> response) {
-                            if (Boolean.parseBoolean(response.body().access)) {
-                                Toast.makeText(getActivity(), "Вы успешно зарегистрированы!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Проверьте почту и логин, такой пользователь уже есть в базе данных!", Toast.LENGTH_LONG).show();
-
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.code() == 201) {
+                                Toast.makeText(getActivity(), "Вы успешно зарегистрированы! Переадресация на авторизацию...", Toast.LENGTH_SHORT).show();
+                                getFragmentManager().beginTransaction().replace(R.id.container, authFragment).addToBackStack(null).commit();
+                            } else if(response.code() == 418){
+                                Toast.makeText(getActivity(), "Проверьте почту и логин, пользователь с таким логином и/или почтой существует!", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<GetModelRegister> call, Throwable t) {
-                            Toast.makeText(getActivity(), "Нет подключения к серверу. Проверьте подключение к сети!", Toast.LENGTH_SHORT);
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -128,9 +142,27 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final  float endValue = 360f;
+                animator = ValueAnimator.ofFloat(0, endValue);
+                animator.setDuration(500L);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        imageLogin.setRotation(value);
+                    }
+                });
                 if (checkLogin(s.toString())) {
+                    if (!flag_login) {
+                        animator.start();
+                        flag_login = true;
+                    }
                     imageLogin.setImageResource(R.drawable.accept_true);
                 } else {
+                    if (flag_login) {
+                        animator.start();
+                        flag_login = false;
+                    }
                     imageLogin.setImageResource(R.drawable.accept_false);
                 }
             }
@@ -149,14 +181,49 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final  float endValue = 360f;
+                animator = ValueAnimator.ofFloat(0, endValue);
+                animator.setDuration(500L);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        imagePassword.setRotation(value);
+                    }
+                });
                 if (checkPassword(s.toString())) {
+                    if(!flag_password){
+                        animator.start();
+                        flag_password = true;
+                    }
                     imagePassword.setImageResource(R.drawable.accept_true);
                 } else {
+                    if(flag_password){
+                        animator.start();
+                        flag_password = false;
+                    }
                     imagePassword.setImageResource(R.drawable.accept_false);
                 }
+                animator = ValueAnimator.ofFloat(0, endValue);
+                animator.setDuration(500L);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        imagePassword_2.setRotation(value);
+                    }
+                });
                 if (checkContPassword(passwordReg.getText().toString(), passwordReg2.getText().toString())) {
+                    if(!flag_password2){
+                        animator.start();
+                        flag_password2 = true;
+                    }
                     imagePassword_2.setImageResource(R.drawable.accept_true);
                 } else {
+                    if(flag_password2){
+                        animator.start();
+                        flag_password2 = false;
+                    }
                     imagePassword_2.setImageResource(R.drawable.accept_false);
                 }
             }
@@ -175,9 +242,27 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final  float endValue = 360f;
+                animator = ValueAnimator.ofFloat(0, endValue);
+                animator.setDuration(500L);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        imagePassword_2.setRotation(value);
+                    }
+                });
                 if (checkContPassword(s.toString(), passwordReg.getText().toString())) {
+                    if(!flag_password2){
+                        animator.start();
+                        flag_password2 = true;
+                    }
                     imagePassword_2.setImageResource(R.drawable.accept_true);
                 } else {
+                    if(flag_password2){
+                        animator.start();
+                        flag_password2 = false;
+                    }
                     imagePassword_2.setImageResource(R.drawable.accept_false);
                 }
             }
@@ -196,9 +281,27 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final  float endValue = 360f;
+                animator = ValueAnimator.ofFloat(0, endValue);
+                animator.setDuration(500L);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float value = (float) animation.getAnimatedValue();
+                        imageEmail.setRotation(value);
+                    }
+                });
                 if (checkEmail(s.toString())) {
+                    if(!flag_email){
+                        flag_email = true;
+                        animator.start();
+                    }
                     imageEmail.setImageResource(R.drawable.accept_true);
                 } else {
+                    if(flag_email){
+                        flag_email = false;
+                        animator.start();
+                    }
                     imageEmail.setImageResource(R.drawable.accept_false);
                 }
             }
@@ -214,12 +317,12 @@ public class ProfileFragment extends Fragment {
 
     private Boolean checkLogin(String login) {
         Matcher match = pattern.matcher(login);
-        return match.matches();
+        return match.matches() && !login.isEmpty();
     }
 
     private Boolean checkPassword(String password) {
         Matcher match = pattern.matcher(password);
-        Boolean lenght = password.length() > 8;
+        Boolean lenght = password.length() >= 8;
         return match.matches() && lenght;
     }
 

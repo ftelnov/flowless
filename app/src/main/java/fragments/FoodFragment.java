@@ -89,7 +89,7 @@ public class FoodFragment extends Fragment {
 
                             Map<Integer, ArrayList<String>> map = new HashMap<>();
                             if (response.body() == null) {
-                                Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                                 return;
                             }
                             List<GetModelCategory> list = response.body();

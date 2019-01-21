@@ -139,7 +139,7 @@ public class SearchFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
-                        Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                     }
                 });
                 return false;

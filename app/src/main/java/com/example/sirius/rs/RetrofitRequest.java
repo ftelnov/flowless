@@ -2,6 +2,7 @@ package com.example.sirius.rs;
 
 import android.app.Application;
 
+import Api.AuthApi;
 import Api.CategoryApi;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
@@ -15,6 +16,7 @@ public class RetrofitRequest extends Application {
     private static RecipeApi recipeApi;
     private static RecipeByParamApi recipeByParamApi;
     private static RegisterApi registerApi;
+    private static AuthApi authApi;
     private Retrofit retrofit;
 
     @Override
@@ -29,6 +31,7 @@ public class RetrofitRequest extends Application {
         recipeApi = retrofit.create(RecipeApi.class);
         recipeByParamApi = retrofit.create(RecipeByParamApi.class);
         registerApi = retrofit.create(RegisterApi.class);
+        authApi = retrofit.create(AuthApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -45,5 +48,9 @@ public class RetrofitRequest extends Application {
 
     public static RegisterApi getRegisterApi() {
         return registerApi;
+    }
+
+    public static AuthApi getAuthApi() {
+        return authApi;
     }
 }
