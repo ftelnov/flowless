@@ -4,6 +4,7 @@ package fragments;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,14 @@ public class OnClickFragment extends Fragment {
 
                 if (response.body() == null) {
                     Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
                     return;
                 }
                 final GetModelRecipe list = response.body();
                 View tempView = getView();
                 TextView name = (TextView) tempView.findViewById(R.id.nameView);
-                name.setText(list.recipeTitle.toString());
+                name.setText(list.recipeTitle);
                 //button
                 final ConstraintLayout constraintLayout = (ConstraintLayout) tempView.findViewById(R.id.showLayout);
                 final ImageButton button = (ImageButton) constraintLayout.findViewById(R.id.listButton);
@@ -114,6 +117,8 @@ public class OnClickFragment extends Fragment {
             @Override
             public void onFailure(Call<GetModelRecipe> call, Throwable t) {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
             }
         });
         return view;

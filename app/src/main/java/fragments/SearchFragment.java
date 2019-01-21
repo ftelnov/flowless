@@ -44,11 +44,28 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
     private boolean flag = true;
+    List<ClickItem> buttons = new ArrayList<ClickItem>();
+    public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
+    public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
+    public  ImageButton imageButton;
     private RecyclerView recyclerView;
+
+    public void onResume() {
+        super.onResume();
+        for(ImageButton imageButton: visited.keySet()){
+            visited.put(imageButton, false);
+        }
+        visited.put(imageButton, true);
+        for(ImageButton imageButton: map.keySet()){
+            imageButton.setImageResource(map.get(imageButton));
+        }
+        imageButton.setImageResource(R.drawable.search_light);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         final ConstraintLayout searchButtonLayout = (ConstraintLayout) view.findViewById(R.id.searchButtonLayout);
         final ImageButton button = (ImageButton) searchButtonLayout.findViewById(R.id.searchlistbutton);
         final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linearSearch);
@@ -92,16 +109,11 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
                 RetrofitRequest.getRecipeByParamApi().getData(s, rangeBarCalori.getLeft(), rangeBarCalori.getRight(), rangeBarFats.getLeft(), rangeBarFats.getRight(), rangeBarProteins.getLeft(), rangeBarProteins.getRight(),rangeBarCarbo.getLeft(), rangeBarCarbo.getRight(), alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
                     @Override
                     public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 
-                        Map<Integer, ArrayList<String>> map = new HashMap<>();
+                        HashMap<Integer, ArrayList<String>> map = new HashMap<>();
                         if (response.body() == null) {
                             Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
                             return;
@@ -115,6 +127,7 @@ public class SearchFragment extends Fragment {
                             arrayList.add(adb.recipeImage);
                             map.put(adb.recipeId, arrayList);
                         }
+                        setInitialData(view, map);
                     }
 
                     @Override
@@ -124,11 +137,25 @@ public class SearchFragment extends Fragment {
                 });
                 return false;
             }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
         });
         return view;
     }
     public Boolean getFlag(){
         return this.flag;
+    }
+
+    private void setInitialData(View view, HashMap<Integer, ArrayList<String>> params){
+        buttons.clear();
+        HashMap<Integer, ArrayList<String>> map =  params;
+        for(ArrayList<String> arr: map.values()){
+            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
+            buttons.add(click);
+        }
     }
 
     public void setFlag(Boolean flag) {
@@ -193,7 +220,7 @@ public class SearchFragment extends Fragment {
                 textView.setText(text);
                 textView.setTag(id);
                 timeView.setText(time + " мин.");
-                if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
+                if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.split("(|\\\\)")[0]).into(imageView);
             }
         }
     }

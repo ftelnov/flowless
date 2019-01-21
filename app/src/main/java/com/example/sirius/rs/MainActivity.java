@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         list.add(listfood_but);
 
         //transaction
+        foodFragment.visited = visited;
+        foodFragment.map = map;
+        foodFragment.imageButton = food_but;
         fragmentManager.beginTransaction().replace(R.id.container, foodFragment).commit();
         food_but.setOnClickListener(new OnClickListener() {
             @Override
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 food_but.setImageResource(R.drawable.food_light);
                 visited.put(food_but, true);
+                foodFragment.visited = visited;
+                foodFragment.map = map;
+                foodFragment.imageButton = food_but;
                 fragmentManager.beginTransaction().replace(R.id.container, foodFragment).addToBackStack(null).commit();
             }
         });
@@ -89,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 search_but.setImageResource(R.drawable.search_light);
                 visited.put(search_but, true);
+                searchFragment.map = map;
+                searchFragment.visited = visited;
+                searchFragment.imageButton = search_but;
                 fragmentManager.beginTransaction().replace(R.id.container, searchFragment).addToBackStack(null).commit();
             }
         });
@@ -102,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 profile_but.setImageResource(R.drawable.profile_light);
                 visited.put(profile_but, true);
+                profileFragment.map = map;
+                profileFragment.visited = visited;
+                profileFragment.imageButton = profile_but;
                 fragmentManager.beginTransaction().replace(R.id.container, profileFragment).addToBackStack(null).commit();
             }
         });
@@ -116,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 notif_but.setImageResource(R.drawable.notif_light);
                 visited.put(notif_but, true);
+                notificationFragment.map = map;
+                notificationFragment.visited = visited;
+                notificationFragment.imageButton = notif_but;
                 fragmentManager.beginTransaction().replace(R.id.container, notificationFragment).addToBackStack(null).commit();
             }
         });
@@ -129,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 listfood_but.setImageResource(R.drawable.listfood_light);
                 visited.put(listfood_but, true);
+                foodlistFragment.map = map;
+                foodlistFragment.visited = visited;
+                foodlistFragment.imageButton = listfood_but;
                 fragmentManager.beginTransaction().replace(R.id.container, foodlistFragment).addToBackStack(null).commit();
             }
         });

@@ -1,6 +1,7 @@
 package fragments;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,14 +30,28 @@ import retrofit2.Response;
 
 public class FoodFragment extends Fragment {
     final Context context = getContext();
+    public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
+    public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
+    public  ImageButton imageButton;
 
     public static FoodFragment newInstance(FragmentManager manager) {
         FoodFragment catFragment = new FoodFragment();
         return catFragment;
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(imageButton == null) return;
+        for(ImageButton imageButton: visited.keySet()){
+            visited.put(imageButton, false);
+        }
+        visited.put(imageButton, true);
+        for(ImageButton imageButton: map.keySet()){
+            imageButton.setImageResource(map.get(imageButton));
+        }
+        imageButton.setImageResource(R.drawable.food_light);
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,12 +65,12 @@ public class FoodFragment extends Fragment {
         ImageButton secondBottom = (ImageButton) view.findViewById(R.id.secondBottom);
         final FragmentManager fragmentManager = getFragmentManager();
         final BlurTransformation blurTransformation = new BlurTransformation(getActivity());
-        Picasso.get().load("http://gg.gg/cxkvf").transform(blurTransformation).into(firstTop);
-        Picasso.get().load("http://gg.gg/cxkvh").transform(blurTransformation).into(secondTop);
-        Picasso.get().load("http://gg.gg/cxkvj").transform(blurTransformation).into(firstCenter);
-        Picasso.get().load("http://gg.gg/cw79w").transform(blurTransformation).into(secondCenter);
-        Picasso.get().load("http://gg.gg/cw7a8").transform(blurTransformation).into(firstBottom);
-        Picasso.get().load("http://gg.gg/cw7ad").transform(blurTransformation).into(secondBottom);
+        Picasso.get().load(R.drawable.zavtrak).transform(blurTransformation).fit().centerCrop().into(firstTop);
+        Picasso.get().load(R.drawable.salad).transform(blurTransformation).fit().centerCrop().into(secondTop);
+        Picasso.get().load(R.drawable.soup).transform(blurTransformation).fit().centerCrop().into(firstCenter);
+        Picasso.get().load(R.drawable.fish).transform(blurTransformation).fit().centerCrop().into(secondCenter);
+        Picasso.get().load(R.drawable.chicken).transform(blurTransformation).fit().centerCrop().into(firstBottom);
+        Picasso.get().load(R.drawable.meat).transform(blurTransformation).fit().centerCrop().into(secondBottom);
         List<ImageButton> Array = new ArrayList<ImageButton>();
         Array.add(firstTop);
         Array.add(secondBottom);

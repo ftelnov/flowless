@@ -64,7 +64,12 @@ public class CategoryFragment extends Fragment {
     private void setInitialData(View view, Category cat){
         buttons.clear();
         Map<Integer, ArrayList<String>> map =  cat.getReceipts();
+        boolean flag = false;
         for(ArrayList<String> arr: map.values()){
+            if(!flag) {
+                flag = true;
+                continue;
+            }
             ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
             buttons.add(click);
         }
@@ -127,7 +132,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             textView.setText(text);
             textView.setTag(id);
             timeView.setText(time + " мин.");
-            if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot).into(imageView);
+            if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.split("(|\\\\)")[1]).into(imageView);
         }
     }
 }
