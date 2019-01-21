@@ -1,7 +1,6 @@
 package fragments;
 
 
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -47,16 +46,16 @@ public class SearchFragment extends Fragment {
     List<ClickItem> buttons = new ArrayList<ClickItem>();
     public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
-    public  ImageButton imageButton;
+    public ImageButton imageButton;
     private RecyclerView recyclerView;
 
     public void onResume() {
         super.onResume();
-        for(ImageButton imageButton: visited.keySet()){
+        for (ImageButton imageButton : visited.keySet()) {
             visited.put(imageButton, false);
         }
         visited.put(imageButton, true);
-        for(ImageButton imageButton: map.keySet()){
+        for (ImageButton imageButton : map.keySet()) {
             imageButton.setImageResource(map.get(imageButton));
         }
         imageButton.setImageResource(R.drawable.search_light);
@@ -73,12 +72,12 @@ public class SearchFragment extends Fragment {
         searchButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getFlag()){
+                if (getFlag()) {
                     setFlag(false);
                     button.setImageResource(R.drawable.arrowdown_light);
                     textView.setText("Показать подробности поиска");
                     linearLayout.setVisibility(View.GONE);
-                }else{
+                } else {
                     setFlag(true);
                     button.setImageResource(R.drawable.arrow_light);
                     textView.setText("Скрыть подробности поиска");
@@ -109,7 +108,7 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                RetrofitRequest.getRecipeByParamApi().getData(s, rangeBarCalori.getLeft(), rangeBarCalori.getRight(), rangeBarFats.getLeft(), rangeBarFats.getRight(), rangeBarProteins.getLeft(), rangeBarProteins.getRight(),rangeBarCarbo.getLeft(), rangeBarCarbo.getRight(), alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
+                RetrofitRequest.getRecipeByParamApi().getData(s, rangeBarCalori.getLeft(), rangeBarCalori.getRight(), rangeBarFats.getLeft(), rangeBarFats.getRight(), rangeBarProteins.getLeft(), rangeBarProteins.getRight(), rangeBarCarbo.getLeft(), rangeBarCarbo.getRight(), alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
                     @Override
                     public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 
@@ -145,14 +144,15 @@ public class SearchFragment extends Fragment {
         });
         return view;
     }
-    public Boolean getFlag(){
+
+    public Boolean getFlag() {
         return this.flag;
     }
 
-    private void setInitialData(View view, HashMap<Integer, ArrayList<String>> params){
+    private void setInitialData(View view, HashMap<Integer, ArrayList<String>> params) {
         buttons.clear();
-        HashMap<Integer, ArrayList<String>> map =  params;
-        for(ArrayList<String> arr: map.values()){
+        HashMap<Integer, ArrayList<String>> map = params;
+        for (ArrayList<String> arr : map.values()) {
             ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
             buttons.add(click);
         }
@@ -177,6 +177,7 @@ public class SearchFragment extends Fragment {
             this.context = context;
             this.manager = manager;
         }
+
         @Override
         public fragments.DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -201,7 +202,7 @@ public class SearchFragment extends Fragment {
             TextView timeView;
             ImageView imageView;
 
-            ViewHolder(View view, final Context context, final FragmentManager manager){
+            ViewHolder(View view, final Context context, final FragmentManager manager) {
                 super(view);
                 lay = (ConstraintLayout) view.findViewById(R.id.constr);
                 textView = lay.findViewById(R.id.button);
@@ -216,27 +217,26 @@ public class SearchFragment extends Fragment {
                 });
 
             }
-            public void bind(String text, String id, String time, String imageRoot){
+
+            public void bind(String text, String id, String time, String imageRoot) {
                 textView.setText(text);
                 textView.setTag(id);
                 timeView.setText(time + " мин.");
-                if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.split("(|\\\\)")[0]).into(imageView);
+                if (!imageRoot.isEmpty())
+                    Picasso.get().load(imageRoot.substring(imageRoot.indexOf('(') + 1, imageRoot.indexOf(')'))).into(imageView);
             }
         }
     }
 
-    class SpacesItemDecoration extends RecyclerView.ItemDecoration
-    {
+    class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
-        public SpacesItemDecoration(int space)
-        {
+        public SpacesItemDecoration(int space) {
             this.space = space;
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
-        {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             outRect.top = space;
             outRect.bottom = space;
         }

@@ -132,7 +132,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             textView.setText(text);
             textView.setTag(id);
             timeView.setText(time + " мин.");
-            if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.split("(|\\\\)")[1]).into(imageView);
+            if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.substring(imageRoot.indexOf('(') + 1, imageRoot.indexOf(')'))).into(imageView);
         }
     }
 }

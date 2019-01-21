@@ -99,17 +99,17 @@ public class OnClickFragment extends Fragment {
                 timecook.setText(timecook.getText() + list.timeOfCooking.toString() + '\n');
 
                 TextView ingrid = (TextView) tempView.findViewById(R.id.ingrid);
-                ingrid.setText(ingrid.getText() + list.recipeIngredients.toString() + '\n');
+                ingrid.setText(ingrid.getText() + "\n" + list.recipeIngredients.toString() + '\n');
 
                 TextView portions = (TextView) tempView.findViewById(R.id.portions);
                 portions.setText(portions.getText() + list.portions.toString() + '\n');
 
                 TextView receipt = (TextView) tempView.findViewById(R.id.textView5);
-                receipt.setText(receipt.getText() + list.recipe.toString() + '\n');
+                receipt.setText(receipt.getText() + "\n " + list.recipe.toString());
 
                 ImageView imageView = (ImageView) tempView.findViewById(R.id.imageView2);
                 if (!list.recipeImage.isEmpty()) {
-                    Picasso.get().load(list.recipeImage).into(imageView);
+                    Picasso.get().load(list.recipeImage.substring(list.recipeImage.indexOf('(') + 1, list.recipeImage.indexOf(')'))).into(imageView);
                 }
 
             }
