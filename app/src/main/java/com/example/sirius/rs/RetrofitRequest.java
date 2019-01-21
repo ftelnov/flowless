@@ -5,6 +5,7 @@ import android.app.Application;
 import Api.CategoryApi;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
+import Api.RegisterApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,6 +14,7 @@ public class RetrofitRequest extends Application {
     private static CategoryApi categoryApi;
     private static RecipeApi recipeApi;
     private static RecipeByParamApi recipeByParamApi;
+    private static RegisterApi registerApi;
     private Retrofit retrofit;
 
     @Override
@@ -20,12 +22,13 @@ public class RetrofitRequest extends Application {
         super.onCreate();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://95.163.180.77") //Базовая часть адреса
-                .addConverterFactory(GsonConverterFactory.create()) //Конвертер, необходимый для преобразования JSON'а в объекты
+                .baseUrl("http://95.163.180.77")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        categoryApi = retrofit.create(CategoryApi.class); //Создаем объект, при помощи которого будем выполнять запросы
+        categoryApi = retrofit.create(CategoryApi.class);
         recipeApi = retrofit.create(RecipeApi.class);
         recipeByParamApi = retrofit.create(RecipeByParamApi.class);
+        registerApi = retrofit.create(RegisterApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -38,5 +41,9 @@ public class RetrofitRequest extends Application {
 
     public static RecipeByParamApi getRecipeByParamApi() {
         return recipeByParamApi;
+    }
+
+    public static RegisterApi getRegisterApi() {
+        return registerApi;
     }
 }
