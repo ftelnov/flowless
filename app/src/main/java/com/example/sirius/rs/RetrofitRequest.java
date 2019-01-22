@@ -3,6 +3,7 @@ package com.example.sirius.rs;
 import android.app.Application;
 
 import Api.AddToFavApi;
+import Api.AddToMenuApi;
 import Api.AuthApi;
 import Api.CategoryApi;
 import Api.FavouriteRecipes;
@@ -21,6 +22,7 @@ public class RetrofitRequest extends Application {
     private static AuthApi authApi;
     private static FavouriteRecipes frApi;
     private static AddToFavApi addFrApi;
+    private static AddToMenuApi addToMenu;
     private Retrofit retrofit;
 
     @Override
@@ -38,6 +40,7 @@ public class RetrofitRequest extends Application {
         authApi = retrofit.create(AuthApi.class);
         frApi = retrofit.create(FavouriteRecipes.class);
         addFrApi = retrofit.create(AddToFavApi.class);
+        addToMenu = retrofit.create(AddToMenuApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -66,5 +69,9 @@ public class RetrofitRequest extends Application {
 
     public static AddToFavApi getAddFavouriteRecipeApi() {
         return addFrApi;
+    }
+
+    public static AddToMenuApi getAddToMenuApi() {
+        return addToMenu;
     }
 }

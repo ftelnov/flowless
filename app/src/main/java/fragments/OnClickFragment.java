@@ -20,12 +20,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sirius.rs.AddToMenuBody;
 import com.example.sirius.rs.FRBody;
 import com.example.sirius.rs.GetModelRecipe;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,6 +44,7 @@ public class OnClickFragment extends Fragment {
     private LinearLayout linearLayout;
     private Boolean flag_add = true;
     private Boolean flag_auth = false;
+    private Map<Integer, String[]> map;
     private String id;
 
     public static OnClickFragment newInstance(String name, String id) {
@@ -60,7 +66,34 @@ public class OnClickFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_scrolling, menu);
+        map = new HashMap<Integer, String[]>();
+        map.put(R.id.mondaybreakfast, new String[]{"monday", "breakfast"});
+        map.put(R.id.mondaydinner, new String[]{"monday", "dinner"});
+        map.put(R.id.mondaylunch, new String[]{"monday", "lunch"});
 
+        map.put(R.id.tuesdaybreakfast, new String[]{"tuesday", "breakfast"});
+        map.put(R.id.tuesdaydinner, new String[]{"tuesday", "dinner"});
+        map.put(R.id.tuesdaylunch, new String[]{"tuesday", "lunch"});
+
+        map.put(R.id.wednesdaybreakfast, new String[]{"wednesday", "breakfast"});
+        map.put(R.id.wednesdaydinner, new String[]{"wednesday", "dinner"});
+        map.put(R.id.wednesdaylunch, new String[]{"wednesday", "lunch"});
+
+        map.put(R.id.thursdaybreakfast, new String[]{"thursday", "breakfast"});
+        map.put(R.id.thursdaydinner, new String[]{"thursday", "dinner"});
+        map.put(R.id.thursdaylunch, new String[]{"thursday", "lunch"});
+
+        map.put(R.id.fridaybreakfast, new String[]{"friday", "breakfast"});
+        map.put(R.id.fridaydinner, new String[]{"friday", "dinner"});
+        map.put(R.id.fridaylunch, new String[]{"friday", "lunch"});
+
+        map.put(R.id.saturdaybreakfast, new String[]{"saturday", "breakfast"});
+        map.put(R.id.saturdaydinner, new String[]{"saturday", "dinner"});
+        map.put(R.id.saturdaylunch, new String[]{"saturday", "lunch"});
+
+        map.put(R.id.sundaybreakfast, new String[]{"sunday", "breakfast"});
+        map.put(R.id.sundaydinner, new String[]{"sunday", "dinner"});
+        map.put(R.id.sundaylunch, new String[]{"sunday", "lunch"});
     }
 
     @Override
@@ -68,40 +101,66 @@ public class OnClickFragment extends Fragment {
         int id = item.getItemId();
 
 
-        switch (id) {
-            case R.id.addtofav:
-                final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
-                flag_auth = mySharedPreferences.getBoolean("auth", false);
-                if (!flag_auth) {
-                    Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                if (!flag_add) {
-                    Toast.makeText(getActivity(), "Данный рецепт уже добавлен в избранное!", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                flag_add = false;
-                FRBody addAsFavouriteBody = new FRBody();
-                addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-                RetrofitRequest.getAddFavouriteRecipeApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.code() == 200) {
-                            Toast.makeText(getActivity(), "Рецепт успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Что-то пошло не так! Проверьте подключение к сети!", Toast.LENGTH_SHORT).show();
-                        }
+        if (id == R.id.addtofav) {
+            final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+            flag_auth = mySharedPreferences.getBoolean("auth", false);
+            if (!flag_auth) {
+                Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (!flag_add) {
+                Toast.makeText(getActivity(), "Данный рецепт уже добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            flag_add = false;
+            FRBody addAsFavouriteBody = new FRBody();
+            addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
+            RetrofitRequest.getAddFavouriteRecipeApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(getActivity(), "Рецепт успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Что-то пошло не так! Проверьте подключение к сети!", Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return true;
+        } else if (map.get(id) != null) {
+            final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+            flag_auth = mySharedPreferences.getBoolean("auth", false);
+            if (!flag_auth) {
+                Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            String[] result_day = map.get(id);
+            AddToMenuBody addAsFavouriteBody = new AddToMenuBody();
+            addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
+            addAsFavouriteBody.recipe_id = this.id;
+            addAsFavouriteBody.day = result_day[0];
+            RetrofitRequest.getAddToMenuApi().getATruth(addAsFavouriteBody, result_day[1]).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(getActivity(), "Рецепт успешно добавлен в меню!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
                     }
-                });
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
