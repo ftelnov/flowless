@@ -4,6 +4,7 @@ import android.app.Application;
 
 import Api.AuthApi;
 import Api.CategoryApi;
+import Api.FavouriteRecipes;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
 import Api.RegisterApi;
@@ -17,6 +18,7 @@ public class RetrofitRequest extends Application {
     private static RecipeByParamApi recipeByParamApi;
     private static RegisterApi registerApi;
     private static AuthApi authApi;
+    private static FavouriteRecipes frApi;
     private Retrofit retrofit;
 
     @Override
@@ -32,6 +34,7 @@ public class RetrofitRequest extends Application {
         recipeByParamApi = retrofit.create(RecipeByParamApi.class);
         registerApi = retrofit.create(RegisterApi.class);
         authApi = retrofit.create(AuthApi.class);
+        frApi = retrofit.create(FavouriteRecipes.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -52,5 +55,9 @@ public class RetrofitRequest extends Application {
 
     public static AuthApi getAuthApi() {
         return authApi;
+    }
+
+    public static FavouriteRecipes getFavouriteRecipesApi() {
+        return frApi;
     }
 }

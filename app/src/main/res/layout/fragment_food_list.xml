@@ -23,8 +23,7 @@
                 android:text="Ваше расписание на неделю!"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/mondayLayout"
@@ -53,7 +52,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/mondaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +89,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tuesdaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -130,7 +127,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/wednesdaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -168,7 +164,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/thursdaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -209,7 +204,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/fridaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -250,7 +244,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/saturdaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -290,7 +283,6 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/sundaybutton"
                     app:layout_constraintTop_toTopOf="parent" />
