@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Objects.Category;
 import Objects.ClickItem;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,7 +65,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
         final ConstraintLayout searchButtonLayout = (ConstraintLayout) view.findViewById(R.id.searchButtonLayout);
-        final ImageButton button = (ImageButton) searchButtonLayout.findViewById(R.id.searchlistbutton);
+        final ImageButton button = (ImageButton) searchButtonLayout.findViewById(R.id.mondaybutton);
         final LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linearSearch);
         final TextView textView = (TextView) searchButtonLayout.findViewById(R.id.textView15);
         searchButtonLayout.setOnClickListener(new View.OnClickListener() {

@@ -71,12 +71,12 @@ public class OnClickFragment extends Fragment {
                         if(getFlag()){
                             setFlag(false);
                             button.setImageResource(R.drawable.arrowdown_light);
-                            textView.setText("Показать подробности поиска");
+                            textView.setText("Показать подробности рецепта");
                             linearLayout.setVisibility(View.GONE);
                         }else{
                             setFlag(true);
                             button.setImageResource(R.drawable.arrow_light);
-                            textView.setText("Скрыть подробности поиска");
+                            textView.setText("Скрыть подробности рецепта");
                             linearLayout.setVisibility(View.VISIBLE);
                         }
                     }

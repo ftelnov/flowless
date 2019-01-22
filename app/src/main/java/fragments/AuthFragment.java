@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class AuthFragment extends Fragment {
     private Boolean flag_login = false;
     private Boolean flag_password = false;
     private ValueAnimator animator;
+    private Context context;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +58,7 @@ public class AuthFragment extends Fragment {
         final EditText password = (EditText) view.findViewById(R.id.passwordInput);
         final ImageView imageLogin = (ImageView) view.findViewById(R.id.logininput_accept);
         final ImageView imagePassword = (ImageView) view.findViewById(R.id.accept_passwordInput);
+        context = getActivity();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +70,7 @@ public class AuthFragment extends Fragment {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.code() == 200){
                             Toast.makeText(getActivity(), "Авторизация успешна!", Toast.LENGTH_SHORT).show();
-                            SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("users_settings", Context.MODE_PRIVATE);
+                            SharedPreferences mySharedPreferences = context.getSharedPreferences("user_settings", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = mySharedPreferences.edit();
                             editor.putBoolean("auth", true);
                             editor.putString("login", authBody.login);

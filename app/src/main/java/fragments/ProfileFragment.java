@@ -62,6 +62,11 @@ public class ProfileFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+        if (mySharedPreferences.getBoolean("auth", false)){
+            ProfileShowFragment profileShowFragment = ProfileShowFragment.newInstance(mySharedPreferences.getString("login", "error"));
+            getFragmentManager().beginTransaction().replace(R.id.container, profileShowFragment).addToBackStack(null).commit();
+        }
         if (imageButton == null) return;
         for (ImageButton imageButton : visited.keySet()) {
             visited.put(imageButton, false);
@@ -78,17 +83,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("users_settings", Context.MODE_PRIVATE);
-        Boolean auth_flag = false;
-        if(mySharedPreferences.contains("users_settings")){
-            auth_flag = mySharedPreferences.getBoolean("auth", false);
-        }
-        if(auth_flag){
-            String login = mySharedPreferences.getString("login", "flex");
-            ProfileShowFragment profileShowFragment = ProfileShowFragment.newInstance(login);
-            getFragmentManager().beginTransaction().replace(R.id.container, profileShowFragment).addToBackStack(null).commit();
-            return view;
-        }
         //Поля ввода
         final EditText loginReg = (EditText) view.findViewById(R.id.loginReg);
         final EditText passwordReg = (EditText) view.findViewById(R.id.passwordReg);

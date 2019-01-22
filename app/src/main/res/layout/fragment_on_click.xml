@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context="fragments.OnClickFragment">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -55,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
-                    android:text="Скрыть подробности поиска"
+                    android:text="Скрыть подробности рецепта"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
@@ -155,5 +154,14 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/star"
+        app:elevation="24dp" />
+
 
 </LinearLayout>
