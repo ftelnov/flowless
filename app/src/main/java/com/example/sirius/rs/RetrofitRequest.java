@@ -2,6 +2,7 @@ package com.example.sirius.rs;
 
 import android.app.Application;
 
+import Api.AddToFavApi;
 import Api.AuthApi;
 import Api.CategoryApi;
 import Api.FavouriteRecipes;
@@ -19,6 +20,7 @@ public class RetrofitRequest extends Application {
     private static RegisterApi registerApi;
     private static AuthApi authApi;
     private static FavouriteRecipes frApi;
+    private static AddToFavApi addFrApi;
     private Retrofit retrofit;
 
     @Override
@@ -35,6 +37,7 @@ public class RetrofitRequest extends Application {
         registerApi = retrofit.create(RegisterApi.class);
         authApi = retrofit.create(AuthApi.class);
         frApi = retrofit.create(FavouriteRecipes.class);
+        addFrApi = retrofit.create(AddToFavApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -59,5 +62,9 @@ public class RetrofitRequest extends Application {
 
     public static FavouriteRecipes getFavouriteRecipesApi() {
         return frApi;
+    }
+
+    public static AddToFavApi getAddFavouriteRecipeApi() {
+        return addFrApi;
     }
 }

@@ -1,10 +1,119 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.sirius.rs.ScrollingActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-</menu>
+        android:id="@+id/addtofav"
+        android:icon="@drawable/star"
+        android:title="Добавить в избранное" />
+    <item
+        android:id="@+id/addtomenu"
+        android:icon="@drawable/star"
+        android:title="Добавить в меню">
+        <menu>
+            <item
+                android:id="@+id/monday"
+                android:title="Понедельник" >
+                <menu>
+                    <item
+                        android:id="@+id/mondaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/mondaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/mondaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/tuesday"
+                android:title="Вторник" >
+                <menu>
+                    <item
+                        android:id="@+id/tuesdaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/tuesdaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/tuesdaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/wednesday"
+                android:title="Среда" >
+                <menu>
+                    <item
+                        android:id="@+id/wednesdaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/wednesdaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/wednesdaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/thursday"
+                android:title="Четверг" >
+                <menu>
+                    <item
+                        android:id="@+id/thursdaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/thursdaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/thursdaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/friday"
+                android:title="Пятница" >
+                <menu>
+                    <item
+                        android:id="@+id/fridaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/fridaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/fridaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/saturday"
+                android:title="Суббота" >
+                <menu>
+                    <item
+                        android:id="@+id/saturdaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/saturdaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/saturdaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+            <item
+                android:id="@+id/sunday"
+                android:title="Воскресенье" >
+                <menu>
+                    <item
+                        android:id="@+id/sundaybreakfast"
+                        android:title="Завтрак" />
+                    <item
+                        android:id="@+id/sundaylunch"
+                        android:title="Обед" />
+                    <item
+                        android:id="@+id/sundaydinner"
+                        android:title="Ужин" />
+                </menu>
+            </item>
+        </menu>
+    </item>
+</>

@@ -1,13 +1,17 @@
 package fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Trace;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,11 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sirius.rs.FRBody;
 import com.example.sirius.rs.GetModelRecipe;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +37,9 @@ public class OnClickFragment extends Fragment {
     private View view;
     private Boolean flag = true;
     private LinearLayout linearLayout;
+    private Boolean flag_add = true;
+    private Boolean flag_auth = false;
+    private String id;
 
     public static OnClickFragment newInstance(String name, String id) {
         OnClickFragment fragment = new OnClickFragment();
@@ -41,13 +51,70 @@ public class OnClickFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_scrolling, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+        switch (id) {
+            case R.id.addtofav:
+                final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+                flag_auth = mySharedPreferences.getBoolean("auth", false);
+                if (!flag_auth) {
+                    Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (!flag_add) {
+                    Toast.makeText(getActivity(), "Данный рецепт уже добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                flag_add = false;
+                FRBody addAsFavouriteBody = new FRBody();
+                addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
+                RetrofitRequest.getAddFavouriteRecipeApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.code() == 200) {
+                            Toast.makeText(getActivity(), "Рецепт успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Что-то пошло не так! Проверьте подключение к сети!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_on_click, container, false);
         this.view = view;
+
         String name = (String) getArguments().getString("name");
-        String id = (String) getArguments().getString("id");
+        id = (String) getArguments().getString("id");
         linearLayout = (LinearLayout) view.findViewById(R.id.listExp);
+
+
         RetrofitRequest.getRecipeApi().getData(id).enqueue(new Callback<GetModelRecipe>() {
             @Override
             public void onResponse(Call<GetModelRecipe> call, Response<GetModelRecipe> response) {
@@ -62,19 +129,19 @@ public class OnClickFragment extends Fragment {
                 View tempView = getView();
                 TextView name = (TextView) tempView.findViewById(R.id.nameView);
                 name.setText(list.recipeTitle);
-                //button
+//button
                 final ConstraintLayout constraintLayout = (ConstraintLayout) tempView.findViewById(R.id.showLayout);
                 final ImageButton button = (ImageButton) constraintLayout.findViewById(R.id.listButton);
                 final TextView textView = (TextView) constraintLayout.findViewById(R.id.textView16);
                 constraintLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(getFlag()){
+                        if (getFlag()) {
                             setFlag(false);
                             button.setImageResource(R.drawable.arrowdown_light);
                             textView.setText("Показать подробности рецепта");
                             linearLayout.setVisibility(View.GONE);
-                        }else{
+                        } else {
                             setFlag(true);
                             button.setImageResource(R.drawable.arrow_light);
                             textView.setText("Скрыть подробности рецепта");
@@ -129,7 +196,7 @@ public class OnClickFragment extends Fragment {
         return this.view;
     }
 
-    public Boolean getFlag(){
+    public Boolean getFlag() {
         return this.flag;
     }
 
@@ -137,7 +204,7 @@ public class OnClickFragment extends Fragment {
         this.flag = flag;
     }
 
-    public LinearLayout getLinearLayout(){
+    public LinearLayout getLinearLayout() {
         return this.linearLayout;
     }
 }
