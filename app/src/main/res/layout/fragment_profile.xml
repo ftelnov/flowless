@@ -13,11 +13,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="8dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
-        android:text="Авторизация"
+        android:text="Перейти к Авторизации"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,21 +43,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Пожалуйста, зарегестрируйтесь или авторизируйтесь для полного доступа ко всем функциям приложения!"
-        android:textAlignment="textStart"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
@@ -68,20 +53,19 @@
         app:layout_constraintBottom_toTopOf="@+id/auth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="7"
-            >
+            android:weightSum="7">
 
             <EditText
                 android:id="@+id/loginReg"
-                android:layout_weight="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="6"
                 android:ems="10"
                 android:hint="Логин"
                 android:inputType="textPersonName"
@@ -99,14 +83,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="7"
-            >
+            android:weightSum="7">
 
             <EditText
                 android:id="@+id/passwordReg"
-                android:layout_weight="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="6"
                 android:ems="10"
                 android:hint="Пароль"
                 android:inputType="textPassword"
@@ -124,14 +107,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="7"
-            >
+            android:weightSum="7">
 
             <EditText
                 android:id="@+id/passwordReg2"
-                android:layout_weight="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="6"
                 android:ems="10"
                 android:hint="Подтвердите пароль"
                 android:inputType="textPassword"
@@ -149,14 +131,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="7"
-            >
+            android:weightSum="7">
 
             <EditText
                 android:id="@+id/e-mailReg"
-                android:layout_weight="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="6"
                 android:ems="10"
                 android:hint="E-mail"
                 android:inputType="textPersonName"
@@ -169,6 +150,39 @@
                 android:layout_weight="1"
                 android:src="@drawable/accept_false" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-Логин должен содержать только символы латинского алфавита и цифры.\n"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-Длина пароля не менее 8 символов, используйте только символы латинского алфавита и цифры"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

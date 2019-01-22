@@ -123,6 +123,7 @@ public class SearchFragment extends Fragment {
                         linearLayout.setVisibility(View.GONE);
                         if (response.body() == null) {
                             buttons.clear();
+                            Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                             return;
                         }
                         List<GetModelCategory> list = response.body();

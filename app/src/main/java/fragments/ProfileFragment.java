@@ -2,6 +2,8 @@ package fragments;
 
 
 import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -75,6 +77,18 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("users_settings", Context.MODE_PRIVATE);
+        Boolean auth_flag = false;
+        if(mySharedPreferences.contains("users_settings")){
+            auth_flag = mySharedPreferences.getBoolean("auth", false);
+        }
+        if(auth_flag){
+            String login = mySharedPreferences.getString("login", "flex");
+            ProfileShowFragment profileShowFragment = ProfileShowFragment.newInstance(login);
+            getFragmentManager().beginTransaction().replace(R.id.container, profileShowFragment).addToBackStack(null).commit();
+            return view;
+        }
         //Поля ввода
         final EditText loginReg = (EditText) view.findViewById(R.id.loginReg);
         final EditText passwordReg = (EditText) view.findViewById(R.id.passwordReg);
@@ -333,6 +347,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private Boolean checkContPassword(String password, String password_2) {
-        return password.equals(password_2);
+        return password.equals(password_2) && !password.isEmpty();
     }
 }
