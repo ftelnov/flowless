@@ -65,7 +65,10 @@ public class ProfileFragment extends Fragment {
         SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
         if (mySharedPreferences.getBoolean("auth", false)){
             ProfileShowFragment profileShowFragment = ProfileShowFragment.newInstance(mySharedPreferences.getString("login", "error"));
-            getFragmentManager().beginTransaction().replace(R.id.container, profileShowFragment).addToBackStack(null).commit();
+            profileShowFragment.imageButton = imageButton;
+            profileShowFragment.map = map;
+            profileShowFragment.visited = visited;
+            getFragmentManager().beginTransaction().replace(R.id.container, profileShowFragment).commit();
         }
         if (imageButton == null) return;
         for (ImageButton imageButton : visited.keySet()) {
@@ -102,7 +105,7 @@ public class ProfileFragment extends Fragment {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, authFragment).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, authFragment).commit();
             }
         });
         button.setOnClickListener(new View.OnClickListener() {

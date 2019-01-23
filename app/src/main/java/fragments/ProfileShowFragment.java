@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,9 @@ import retrofit2.Response;
 
 public class ProfileShowFragment extends Fragment {
     public String login;
+    public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
+    public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
+    public ImageButton imageButton;
 
 
     public static ProfileShowFragment newInstance(String login) {
@@ -54,6 +58,19 @@ public class ProfileShowFragment extends Fragment {
         return profileShowFragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (imageButton == null) return;
+        for (ImageButton imageButton : visited.keySet()) {
+            visited.put(imageButton, false);
+        }
+        visited.put(imageButton, true);
+        for (ImageButton imageButton : map.keySet()) {
+            imageButton.setImageResource(map.get(imageButton));
+        }
+        imageButton.setImageResource(R.drawable.profile_light);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
