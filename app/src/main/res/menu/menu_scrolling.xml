@@ -5,6 +5,10 @@
         android:icon="@drawable/star"
         android:title="Добавить в избранное" />
     <item
+        android:id="@+id/delfromfav"
+        android:icon="@drawable/star"
+        android:title="Удалить из избранного" />
+    <item
         android:id="@+id/addtomenu"
         android:icon="@drawable/star"
         android:title="Добавить в меню">

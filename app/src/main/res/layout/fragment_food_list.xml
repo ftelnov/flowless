@@ -12,7 +12,7 @@
         style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:tag="monday"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lunch" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/tuesday"
@@ -120,6 +120,7 @@
         style="@style/ButtonMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:tag="sunday"

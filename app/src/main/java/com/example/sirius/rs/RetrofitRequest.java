@@ -6,6 +6,7 @@ import Api.AddToFavApi;
 import Api.AddToMenuApi;
 import Api.AuthApi;
 import Api.CategoryApi;
+import Api.DeleteFromFavApi;
 import Api.FavouriteRecipes;
 import Api.GetMenuApi;
 import Api.RecipeApi;
@@ -25,6 +26,7 @@ public class RetrofitRequest extends Application {
     private static AddToFavApi addFrApi;
     private static AddToMenuApi addToMenu;
     private static GetMenuApi getMenuApi;
+    private static DeleteFromFavApi deleteFromFavApi;
     private Retrofit retrofit;
 
     @Override
@@ -44,6 +46,7 @@ public class RetrofitRequest extends Application {
         addFrApi = retrofit.create(AddToFavApi.class);
         addToMenu = retrofit.create(AddToMenuApi.class);
         getMenuApi = retrofit.create(GetMenuApi.class);
+        deleteFromFavApi = retrofit.create(DeleteFromFavApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -80,5 +83,9 @@ public class RetrofitRequest extends Application {
 
     public static GetMenuApi getMenuApi() {
         return getMenuApi;
+    }
+
+    public static DeleteFromFavApi getDeleteFromFavApi(){
+        return deleteFromFavApi;
     }
 }

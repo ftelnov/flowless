@@ -99,8 +99,6 @@ public class OnClickFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
         if (id == R.id.addtofav) {
             final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
             flag_auth = mySharedPreferences.getBoolean("auth", false);
@@ -121,7 +119,7 @@ public class OnClickFragment extends Fragment {
                     if (response.code() == 200) {
                         Toast.makeText(getActivity(), "Рецепт успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(), "Что-то пошло не так! Проверьте подключение к сети!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Данный рецепт уже добавлен в избранное!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -131,7 +129,39 @@ public class OnClickFragment extends Fragment {
                 }
             });
             return true;
-        } else if (map.get(id) != null) {
+        }
+        else if(id == R.id.delfromfav){
+            final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+            flag_auth = mySharedPreferences.getBoolean("auth", false);
+            if (!flag_auth) {
+                Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (!flag_add) {
+                Toast.makeText(getActivity(), "Данный рецепт уже удален из избранного!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            flag_add = false;
+            FRBody addAsFavouriteBody = new FRBody();
+            addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
+            RetrofitRequest.getDeleteFromFavApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(getActivity(), "Рецепт успешно удален из избранного!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Рецепта нет в избранном!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return true;
+        }
+        else if (map.get(id) != null) {
             final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
             flag_auth = mySharedPreferences.getBoolean("auth", false);
             if (!flag_auth) {
