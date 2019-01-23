@@ -86,7 +86,7 @@ public class ProfileShowFragment extends Fragment {
 
                 HashMap<Integer, ArrayList<String>> map = new HashMap<>();
                 if (response.body() == null) {
-                    Toast.makeText(getActivity(), "Любимые рецепты еще не добавлены", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Любимые рецепты еще не добавлены!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 List<GetModelCategory> list = response.body();

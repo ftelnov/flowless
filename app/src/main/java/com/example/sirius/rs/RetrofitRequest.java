@@ -7,6 +7,7 @@ import Api.AddToMenuApi;
 import Api.AuthApi;
 import Api.CategoryApi;
 import Api.FavouriteRecipes;
+import Api.GetMenuApi;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
 import Api.RegisterApi;
@@ -23,6 +24,7 @@ public class RetrofitRequest extends Application {
     private static FavouriteRecipes frApi;
     private static AddToFavApi addFrApi;
     private static AddToMenuApi addToMenu;
+    private static GetMenuApi getMenuApi;
     private Retrofit retrofit;
 
     @Override
@@ -41,6 +43,7 @@ public class RetrofitRequest extends Application {
         frApi = retrofit.create(FavouriteRecipes.class);
         addFrApi = retrofit.create(AddToFavApi.class);
         addToMenu = retrofit.create(AddToMenuApi.class);
+        getMenuApi = retrofit.create(GetMenuApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -73,5 +76,9 @@ public class RetrofitRequest extends Application {
 
     public static AddToMenuApi getAddToMenuApi() {
         return addToMenu;
+    }
+
+    public static GetMenuApi getMenuApi() {
+        return getMenuApi;
     }
 }

@@ -143,10 +143,10 @@ public class OnClickFragment extends Fragment {
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
             addAsFavouriteBody.recipe_id = this.id;
             addAsFavouriteBody.day = result_day[0];
-            RetrofitRequest.getAddToMenuApi().getATruth(addAsFavouriteBody, result_day[1]).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getAddToMenuApi().getATruth(result_day[1], addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.code() == 200) {
+                    if (response.code() == 201) {
                         Toast.makeText(getActivity(), "Рецепт успешно добавлен в меню!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), String.valueOf(response.code()), Toast.LENGTH_SHORT).show();

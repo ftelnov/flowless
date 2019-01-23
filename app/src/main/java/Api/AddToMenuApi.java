@@ -12,5 +12,5 @@ import retrofit2.http.Path;
 
 public interface AddToMenuApi {
     @POST("/user/menuadd/{time}")
-    Call<ResponseBody> getATruth(@Body AddToMenuBody registerBody, @Path("time") String time);
+    Call<ResponseBody> getATruth(@Path("time") String timef, @Body AddToMenuBody registerBody);
 }
