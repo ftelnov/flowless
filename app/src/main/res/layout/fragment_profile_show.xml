@@ -25,33 +25,64 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/fiol"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/FavouriteBut"
-            style="@style/ButtonMain"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:tag="monday"
-            android:text="Избранное"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+            <Button
+                android:id="@+id/FavouriteBut"
+                style="@style/ButtonMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="3dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:paddingRight="3dp"
+                android:tag="monday"
+                android:text="Избранное"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/allergenButton"
+                style="@style/ButtonMain"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="4dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:tag="monday"
+                android:text="Аллергены"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/allergenButton"
+            android:id="@+id/logout"
             style="@style/ButtonMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
+            android:layout_weight="1"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:tag="monday"
-            android:text="Аллергены"
+            android:text="Выйти из аккаунта"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="30sp" />

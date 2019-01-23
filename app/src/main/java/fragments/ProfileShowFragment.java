@@ -2,8 +2,10 @@ package fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,8 @@ import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +69,18 @@ public class ProfileShowFragment extends Fragment {
             public void onClick(View v) {
                 FavouriteFragment favouriteFragment = FavouriteFragment.newInstance(login);
                 getFragmentManager().beginTransaction().replace(R.id.container, favouriteFragment).commit();
+            }
+        });
+        final Button LogOut = view.findViewById(R.id.logout);
+        LogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mySharedPreferences.edit();
+                editor.putBoolean("auth", false);
+                editor.apply();
+                ProfileFragment profileFragment = new ProfileFragment();
+                getFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
             }
         });
         return view;
