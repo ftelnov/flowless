@@ -116,7 +116,7 @@ public class OnClickFragment extends Fragment {
             RetrofitRequest.getAddFavouriteRecipeApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.code() == 200) {
+                    if (response.code() == 201) {
                         Toast.makeText(getActivity(), "Рецепт успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), "Данный рецепт уже добавлен в избранное!", Toast.LENGTH_SHORT).show();

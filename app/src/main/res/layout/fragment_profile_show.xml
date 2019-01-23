@@ -28,26 +28,34 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/agaga"
+        <Button
+            android:id="@+id/FavouriteBut"
+            style="@style/ButtonMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Далее идут Ваши любимые рецепты"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:tag="monday"
+            android:text="Избранное"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/allergenButton"
+            style="@style/ButtonMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:tag="monday"
+            android:text="Аллергены"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favouriteRecipesRecycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
