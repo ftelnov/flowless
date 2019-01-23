@@ -108,6 +108,14 @@ public class ProfileShowFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).commit();
             }
         });
+        final Button myAllergen = view.findViewById(R.id.myAllergens);
+        myAllergen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyAllergens alergenFragment = MyAllergens.newInstance(login);
+                getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).commit();
+            }
+        });
         return view;
     }
 

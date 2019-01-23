@@ -72,6 +72,22 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/myAllergens"
+            style="@style/ButtonMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:tag="monday"
+            android:text="Мои Аллергены"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <Button
             android:id="@+id/logout"
             style="@style/ButtonMain"
             android:layout_width="match_parent"

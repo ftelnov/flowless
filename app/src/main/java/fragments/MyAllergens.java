@@ -8,7 +8,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -16,46 +15,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sirius.rs.FRBody;
 import com.example.sirius.rs.GetModelFood;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Objects.ClickItem;
 import Objects.Food;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AlergenFragment extends Fragment {
+
+public class MyAllergens extends Fragment {
     public RecyclerView recyclerView;
     public DataAdapter dataAdapter;
     List<Food> buttons = new ArrayList<>();
-
-    public AlergenFragment() {
-    }
-
-    static AlergenFragment newInstance(String login){
-        AlergenFragment alergenFragment = new AlergenFragment();
+    static MyAllergens newInstance(String login){
+        MyAllergens myAllergens = new MyAllergens();
         Bundle bundle = new Bundle();
         bundle.putString("login", login);
-        alergenFragment.setArguments(bundle);
-        return alergenFragment;
+        myAllergens.setArguments(bundle);
+        return myAllergens;
     }
+
+    public MyAllergens() {
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_alergen, container, false);
+        final View view = inflater.inflate(R.layout.fragment_my_allergens, container, false);
         dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), getArguments().getString("login"));
         RetrofitRequest.getFoodApi().getAllFood().enqueue(new Callback<List<GetModelFood>>() {
             @Override
@@ -92,7 +88,6 @@ public class AlergenFragment extends Fragment {
         return view;
     }
 
-
     //Adapter
     class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
@@ -110,14 +105,14 @@ public class AlergenFragment extends Fragment {
             this.login = login;
         }
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             View view = inflater.inflate(R.layout.fooditem, parent, false);
-            return new ViewHolder(view, context, manager, login);
+            return new DataAdapter.ViewHolder(view, context, manager, login);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
             Food button = buttons.get(position);
             holder.bind(button.getName(), button.getId());
         }
@@ -168,6 +163,4 @@ public class AlergenFragment extends Fragment {
             }
         }
     }
-
-    //
 }

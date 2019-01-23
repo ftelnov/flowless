@@ -2,6 +2,7 @@ package com.example.sirius.rs;
 
 import android.app.Application;
 
+import Api.AddAllergenApi;
 import Api.AddToFavApi;
 import Api.AddToMenuApi;
 import Api.AuthApi;
@@ -29,6 +30,7 @@ public class RetrofitRequest extends Application {
     private static GetMenuApi getMenuApi;
     private static DeleteFromFavApi deleteFromFavApi;
     private static GetFoodApi getFoodApi;
+    private static AddAllergenApi addAllergenApi;
     private Retrofit retrofit;
 
     @Override
@@ -50,6 +52,7 @@ public class RetrofitRequest extends Application {
         getMenuApi = retrofit.create(GetMenuApi.class);
         deleteFromFavApi = retrofit.create(DeleteFromFavApi.class);
         getFoodApi = retrofit.create(GetFoodApi.class);
+        addAllergenApi = retrofit.create(AddAllergenApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -94,5 +97,9 @@ public class RetrofitRequest extends Application {
 
     public static GetFoodApi getFoodApi(){
         return getFoodApi;
+    }
+
+    public static AddAllergenApi addAllergenApi(){
+        return addAllergenApi;
     }
 }

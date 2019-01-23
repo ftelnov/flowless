@@ -1,18 +1,21 @@
 package Api;
 
+import com.example.sirius.rs.FRBody;
 import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.GetModelRecipe;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RecipeByParamApi {
-    @GET("/filter")
-    Call<List<GetModelCategory>> getData(@Query("name") String resourceName,
+    @POST("/filter")
+    Call<List<GetModelCategory>> getData(@Body FRBody body, @Query("name") String resourceName,
                                          @Query("calories_min") int calories_min,
                                          @Query("calories_max") int calories_max,
                                          @Query("fats_min") int fats_min,

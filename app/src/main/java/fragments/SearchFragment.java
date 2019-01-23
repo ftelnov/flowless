@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appyvet.materialrangebar.RangeBar;
+import com.example.sirius.rs.FRBody;
 import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
@@ -104,10 +105,12 @@ public class SearchFragment extends Fragment {
         final CheckBox alergen = (CheckBox) view.findViewById(R.id.allergen);
         //
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        final FRBody frBody = new FRBody();
+        frBody.login = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE).getString("login", "$####root####$");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                RetrofitRequest.getRecipeByParamApi().getData(s, Integer.parseInt(rangeBarCalori.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
+                RetrofitRequest.getRecipeByParamApi().getData(frBody, s, Integer.parseInt(rangeBarCalori.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
                         Integer.parseInt(rangeBarFats.getLeftPinValue()), Integer.parseInt(rangeBarFats.getRightPinValue()),
                         Integer.parseInt(rangeBarProteins.getLeftPinValue()), Integer.parseInt(rangeBarProteins.getRightPinValue()),
                         Integer.parseInt(rangeBarCarbo.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
