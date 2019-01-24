@@ -185,10 +185,6 @@ public class OnClickFragment extends Fragment {
                 Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if (!flag_add) {
-                Toast.makeText(getActivity(), "Данный рецепт уже удален из избранного!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
             String[] result_day = map.get(id);
             AddToMenuBody addAsFavouriteBody = new AddToMenuBody();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");

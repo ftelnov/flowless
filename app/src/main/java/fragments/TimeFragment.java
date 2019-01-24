@@ -70,6 +70,10 @@ public class TimeFragment extends Fragment {
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
                             Map<Integer, ArrayList<String>> map = new HashMap<>();
                             List<GetModelCategory> list = response.body();
+                            if(list == null){
+                                Toast.makeText(getActivity(), "Рецепты еще не добавлены", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             for (GetModelCategory adb : list) {
                                 ArrayList<String> arrayList = new ArrayList<String>();
                                 arrayList.add(adb.recipeTitle);
