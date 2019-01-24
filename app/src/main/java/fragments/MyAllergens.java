@@ -52,8 +52,11 @@ public class MyAllergens extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_allergens, container, false);
-        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), getArguments().getString("login"));
-        RetrofitRequest.getFoodApi().getAllFood().enqueue(new Callback<List<GetModelFood>>() {
+        FRBody frBody = new FRBody();
+        frBody.login = getArguments().getString("login");
+        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), frBody.login);
+
+        RetrofitRequest.getUserAllergensApi().getData(frBody).enqueue(new Callback<List<GetModelFood>>() {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 if(response.body() == null){
@@ -65,7 +68,7 @@ public class MyAllergens extends Fragment {
                     Food flex = new Food(getModelFood.name, getModelFood.id.toString());
                     buttons.add(flex);
                 }
-                recyclerView = view.findViewById(R.id.foodrecycler);
+                recyclerView = view.findViewById(R.id.recyclerAllergens);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 float dip = 4f;
@@ -136,10 +139,10 @@ public class MyAllergens extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(flag){
-                            RetrofitRequest.addAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
+                            RetrofitRequest.dellAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    if(response.code() != 201){
+                                    if(response.code() != 200){
                                         Toast.makeText(getActivity(), "Что-то пошло не так, попробуйте снова!", Toast.LENGTH_SHORT).show();
                                     }
                                 }

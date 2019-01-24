@@ -7,6 +7,7 @@ import Api.AddToFavApi;
 import Api.AddToMenuApi;
 import Api.AuthApi;
 import Api.CategoryApi;
+import Api.DelFromAllergenApi;
 import Api.DeleteFromFavApi;
 import Api.FavouriteRecipes;
 import Api.GetFoodApi;
@@ -14,6 +15,7 @@ import Api.GetMenuApi;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
 import Api.RegisterApi;
+import Api.UserAllergensApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,6 +33,8 @@ public class RetrofitRequest extends Application {
     private static DeleteFromFavApi deleteFromFavApi;
     private static GetFoodApi getFoodApi;
     private static AddAllergenApi addAllergenApi;
+    private static DelFromAllergenApi delFromAllergenApi;
+    private static UserAllergensApi userAllergensApi;
     private Retrofit retrofit;
 
     @Override
@@ -53,6 +57,8 @@ public class RetrofitRequest extends Application {
         deleteFromFavApi = retrofit.create(DeleteFromFavApi.class);
         getFoodApi = retrofit.create(GetFoodApi.class);
         addAllergenApi = retrofit.create(AddAllergenApi.class);
+        delFromAllergenApi = retrofit.create(DelFromAllergenApi.class);
+        userAllergensApi = retrofit.create(UserAllergensApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -91,15 +97,23 @@ public class RetrofitRequest extends Application {
         return getMenuApi;
     }
 
-    public static DeleteFromFavApi getDeleteFromFavApi(){
+    public static DeleteFromFavApi getDeleteFromFavApi() {
         return deleteFromFavApi;
     }
 
-    public static GetFoodApi getFoodApi(){
+    public static GetFoodApi getFoodApi() {
         return getFoodApi;
     }
 
-    public static AddAllergenApi addAllergenApi(){
+    public static AddAllergenApi addAllergenApi() {
         return addAllergenApi;
+    }
+
+    public static DelFromAllergenApi dellAllergenApi() {
+        return delFromAllergenApi;
+    }
+
+    public static UserAllergensApi getUserAllergensApi() {
+        return userAllergensApi;
     }
 }
