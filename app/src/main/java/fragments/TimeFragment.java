@@ -69,10 +69,6 @@ public class TimeFragment extends Fragment {
                         @Override
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
                             Map<Integer, ArrayList<String>> map = new HashMap<>();
-                            if (response.body() == null) {
-                                Toast.makeText(getActivity(), "Рецепты еще не добавлены!", Toast.LENGTH_LONG).show();
-                                return;
-                            }
                             List<GetModelCategory> list = response.body();
                             for (GetModelCategory adb : list) {
                                 ArrayList<String> arrayList = new ArrayList<String>();
@@ -83,7 +79,7 @@ public class TimeFragment extends Fragment {
                                 map.put(adb.recipeId, arrayList);
                             }
                             Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
-                            CategoryFragment catFragment = CategoryFragment.newInstance(cat);
+                            CategoryFragmentMenu catFragment = CategoryFragmentMenu.newInstance(cat, getArguments().getString("day"), button.getTag().toString());
                             getFragmentManager().beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
 
                         }

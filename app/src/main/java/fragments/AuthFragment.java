@@ -81,9 +81,6 @@ public class AuthFragment extends Fragment {
                         else if(response.code() == 418){
                             Toast.makeText(getActivity(), "Неправильный пароль или логин!", Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети!", Toast.LENGTH_SHORT).show();
-                        }
                     }
 
                     @Override

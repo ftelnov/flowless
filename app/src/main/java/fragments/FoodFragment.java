@@ -88,10 +88,6 @@ public class FoodFragment extends Fragment {
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 
                             Map<Integer, ArrayList<String>> map = new HashMap<>();
-                            if (response.body() == null) {
-                                Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
-                                return;
-                            }
                             List<GetModelCategory> list = response.body();
                             for (GetModelCategory adb : list) {
                                 ArrayList<String> arrayList = new ArrayList<String>();

@@ -120,4 +120,8 @@
             </item>
         </menu>
     </item>
+    <item
+        android:id="@+id/delfrommenu"
+        android:icon="@drawable/star"
+        android:title="Удалить из меню" />
 </menu>

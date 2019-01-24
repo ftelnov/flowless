@@ -60,7 +60,6 @@ public class MyAllergens extends Fragment {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 if(response.body() == null){
-                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 List<GetModelFood> foodList = response.body();

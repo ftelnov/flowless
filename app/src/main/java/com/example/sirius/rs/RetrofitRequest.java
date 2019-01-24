@@ -15,6 +15,7 @@ import Api.GetMenuApi;
 import Api.RecipeApi;
 import Api.RecipeByParamApi;
 import Api.RegisterApi;
+import Api.RmFromMenuApi;
 import Api.UserAllergensApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,6 +36,7 @@ public class RetrofitRequest extends Application {
     private static AddAllergenApi addAllergenApi;
     private static DelFromAllergenApi delFromAllergenApi;
     private static UserAllergensApi userAllergensApi;
+    private static RmFromMenuApi rmFromMenuApi;
     private Retrofit retrofit;
 
     @Override
@@ -59,6 +61,7 @@ public class RetrofitRequest extends Application {
         addAllergenApi = retrofit.create(AddAllergenApi.class);
         delFromAllergenApi = retrofit.create(DelFromAllergenApi.class);
         userAllergensApi = retrofit.create(UserAllergensApi.class);
+        rmFromMenuApi = retrofit.create(RmFromMenuApi.class);
     }
 
     public static CategoryApi getCategoryApi() {
@@ -115,5 +118,9 @@ public class RetrofitRequest extends Application {
 
     public static UserAllergensApi getUserAllergensApi() {
         return userAllergensApi;
+    }
+
+    public static RmFromMenuApi rmFromMenuApi() {
+        return rmFromMenuApi;
     }
 }

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Api.AddToMenuApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,12 +47,27 @@ public class OnClickFragment extends Fragment {
     private Boolean flag_auth = false;
     private Map<Integer, String[]> map;
     private String id;
+    private String from = "menu";
 
-    public static OnClickFragment newInstance(String name, String id) {
+    public static OnClickFragment newInstance(String name, String id, String from) {
         OnClickFragment fragment = new OnClickFragment();
         Bundle args = new Bundle();
         args.putString("name", name);
         args.putString("id", id);
+        args.putString("from", from);
+        args.putString("day", "nil");
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static OnClickFragment newInstance(String name, String id, String from, String day, String meal) {
+        OnClickFragment fragment = new OnClickFragment();
+        Bundle args = new Bundle();
+        args.putString("name", name);
+        args.putString("id", id);
+        args.putString("from", from);
+        args.putString("day", day);
+        args.putString("meal", meal);
         fragment.setArguments(args);
         return fragment;
     }
@@ -99,6 +115,7 @@ public class OnClickFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        this.from = getArguments().getString("from");
         if (id == R.id.addtofav) {
             final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
             flag_auth = mySharedPreferences.getBoolean("auth", false);
@@ -161,6 +178,39 @@ public class OnClickFragment extends Fragment {
             });
             return true;
         }
+        else if(id == R.id.delfrommenu && this.from.equals("menu")){
+            final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+            flag_auth = mySharedPreferences.getBoolean("auth", false);
+            if (!flag_auth) {
+                Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (!flag_add) {
+                Toast.makeText(getActivity(), "Данный рецепт уже удален из избранного!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            String[] result_day = map.get(id);
+            AddToMenuBody addAsFavouriteBody = new AddToMenuBody();
+            addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
+            addAsFavouriteBody.recipe_id = this.id;
+            addAsFavouriteBody.day = getArguments().getString("day");
+            RetrofitRequest.rmFromMenuApi().getADelTruth(getArguments().getString("meal"), addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        Toast.makeText(getActivity(), "Рецепт успешно удален из меню!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Рецепта нет в меню!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return true;
+        }
         else if (map.get(id) != null) {
             final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
             flag_auth = mySharedPreferences.getBoolean("auth", false);
@@ -201,6 +251,7 @@ public class OnClickFragment extends Fragment {
 
         String name = (String) getArguments().getString("name");
         id = (String) getArguments().getString("id");
+        from = getArguments().getString("from");
         linearLayout = (LinearLayout) view.findViewById(R.id.listExp);
 
 

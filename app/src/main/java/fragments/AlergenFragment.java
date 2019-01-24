@@ -59,14 +59,14 @@ public class AlergenFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_alergen, container, false);
         FRBody frBody = new FRBody();
-        final ArrayList<Integer> ids = new ArrayList<>();
+        final ArrayList<String> ids = new ArrayList<>();
         frBody.login = getArguments().getString("login");
         RetrofitRequest.getUserAllergensApi().getData(frBody).enqueue(new Callback<List<GetModelFood>>() {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 if (response.body() == null) return;
                 for(GetModelFood food: response.body()){
-                    ids.add(food.id);
+                    ids.add(String.valueOf(food.id));
                 }
             }
 
@@ -116,9 +116,9 @@ public class AlergenFragment extends Fragment {
         private Context context;
         private FragmentManager manager;
         private String login;
-        private ArrayList<Integer> arrayList;
+        private ArrayList<String> arrayList;
 
-        DataAdapter(Context context, List<Food> buttons, FragmentManager manager, String login, ArrayList<Integer> ids) {
+        DataAdapter(Context context, List<Food> buttons, FragmentManager manager, String login, ArrayList<String> ids) {
             this.buttons = buttons;
             this.inflater = LayoutInflater.from(context);
             this.context = context;
@@ -146,10 +146,10 @@ public class AlergenFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             Button button;
-            ArrayList<Integer> list;
+            ArrayList<String> list;
             FRBody frBody = new FRBody();
             ConstraintLayout constraintLayout;
-            ViewHolder(View view, final Context context, final FragmentManager manager, String login, ArrayList<Integer> flex){
+            ViewHolder(View view, final Context context, final FragmentManager manager, String login, ArrayList<String> flex){
                 super(view);
                 frBody.login = login;
                 constraintLayout = view.findViewById(R.id.allergenLayout);
@@ -161,13 +161,8 @@ public class AlergenFragment extends Fragment {
                 button.setText(text);
                 button.setTag(id);
                 final TempClass tempClass = new TempClass();
-                if(list.contains(Integer.parseInt(id))){
-                    button.setBackground(getResources().getDrawable(R.drawable.button_recolor, getActivity().getTheme()));
-                    button.setAllCaps(false);
-                    tempClass.flag = false;
-                }
                 button.setOnClickListener(new View.OnClickListener() {
-                    private Boolean flag = tempClass.flag;
+                    private Boolean flag = true;
                     @Override
                     public void onClick(View v) {
                         if(flag){
@@ -175,7 +170,10 @@ public class AlergenFragment extends Fragment {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if(response.code() != 201){
-                                        Toast.makeText(getActivity(), "Что-то пошло не так, попробуйте снова!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Аллерген уже добавлен!", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        flag = !flag;
+                                        button.setBackground(getResources().getDrawable(R.drawable.button_recolor, getActivity().getTheme()));
                                     }
                                 }
 
@@ -184,13 +182,16 @@ public class AlergenFragment extends Fragment {
                                     Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                                 }
                             });
-                            button.setBackground(getResources().getDrawable(R.drawable.button_recolor, getActivity().getTheme()));
                         }else {
                             RetrofitRequest.dellAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if(response.code() != 200){
-                                        Toast.makeText(getActivity(), "Что-то пошло не так, попробуйте снова!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Продукт уже удален из аллергенов!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        flag = !flag;
+                                        button.setBackground(getResources().getDrawable(R.drawable.button, getActivity().getTheme()));
                                     }
                                 }
 
@@ -198,9 +199,8 @@ public class AlergenFragment extends Fragment {
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                                     Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                                 }
-                            });
-                            button.setBackground(getResources().getDrawable(R.drawable.button, getActivity().getTheme()));}
-                        flag = !flag;
+                            }); }
+
                         button.setAllCaps(false);
                     }
                 });

@@ -77,10 +77,7 @@ public class FavouriteFragment extends Fragment {
             public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 
                 HashMap<Integer, ArrayList<String>> map = new HashMap<>();
-                if (response.body() == null) {
-                    Toast.makeText(getActivity(), "Любимые рецепты еще не добавлены!", Toast.LENGTH_LONG).show();
-                    return;
-                }
+
                 List<GetModelCategory> list = response.body();
                 for (GetModelCategory adb : list) {
                     ArrayList<String> arrayList = new ArrayList<String>();

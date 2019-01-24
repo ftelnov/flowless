@@ -10,8 +10,8 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface AddToMenuApi {
-    @POST("/user/menuadd/{time}")
-    Call<ResponseBody> getATruth(@Path("time") String timef, @Body AddToMenuBody registerBody);
+public interface RmFromMenuApi {
 
+    @POST("/user/menudel/{meal}")
+    Call<ResponseBody> getADelTruth(@Path("meal") String timef, @Body AddToMenuBody registerBody);
 }

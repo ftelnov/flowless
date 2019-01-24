@@ -125,7 +125,6 @@ public class SearchFragment extends Fragment {
                         linearLayout.setVisibility(View.GONE);
                         if (response.body() == null) {
                             buttons.clear();
-                            Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                             return;
                         }
                         List<GetModelCategory> list = response.body();
@@ -224,7 +223,8 @@ public class SearchFragment extends Fragment {
                 lay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        OnClickFragment fragment = OnClickFragment.newInstance(textView.getText().toString(), textView.getTag().toString());
+                        OnClickFragment fragment = OnClickFragment.newInstance(textView.getText().toString(), textView.getTag().toString(), "search");
+
                         manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                     }
                 });

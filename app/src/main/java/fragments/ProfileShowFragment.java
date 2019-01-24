@@ -85,7 +85,7 @@ public class ProfileShowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FavouriteFragment favouriteFragment = FavouriteFragment.newInstance(login);
-                getFragmentManager().beginTransaction().replace(R.id.container, favouriteFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, favouriteFragment).addToBackStack(null).commit();
             }
         });
         final Button LogOut = view.findViewById(R.id.logout);
@@ -97,7 +97,7 @@ public class ProfileShowFragment extends Fragment {
                 editor.putBoolean("auth", false);
                 editor.apply();
                 ProfileFragment profileFragment = new ProfileFragment();
-                getFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, profileFragment).addToBackStack(null).commit();
             }
         });
         final Button Allergen = view.findViewById(R.id.allergenButton);
@@ -105,7 +105,7 @@ public class ProfileShowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlergenFragment alergenFragment = AlergenFragment.newInstance(login);
-                getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).addToBackStack(null).commit();
             }
         });
         final Button myAllergen = view.findViewById(R.id.myAllergens);
@@ -113,7 +113,7 @@ public class ProfileShowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MyAllergens alergenFragment = MyAllergens.newInstance(login);
-                getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).addToBackStack(null).commit();
             }
         });
         return view;

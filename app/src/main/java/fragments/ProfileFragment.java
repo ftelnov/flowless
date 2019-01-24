@@ -131,9 +131,6 @@ public class ProfileFragment extends Fragment {
                             } else if(response.code() == 418){
                                 Toast.makeText(getActivity(), "Проверьте почту и логин, пользователь с таким логином и/или почтой существует!", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
-                            }
                         }
 
                         @Override
