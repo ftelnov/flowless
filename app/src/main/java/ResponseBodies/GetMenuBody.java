@@ -1,4 +1,4 @@
-package com.example.sirius.rs;
+package ResponseBodies;
 
 public class GetMenuBody {
     public String login;

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.sirius.rs.GetMenuBody;
-import com.example.sirius.rs.GetModelCategory;
+import ResponseBodies.GetMenuBody;
+import ResponseBodies.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import Objects.Category;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,7 +64,7 @@ public class TimeFragment extends Fragment {
                     GetMenuBody getMenuBody = new GetMenuBody();
                     getMenuBody.day = tag.toLowerCase();
                     getMenuBody.login = mySharedPreferences.getString("login", "flow");
-                    RetrofitRequest.getMenuApi().getATruth(button.getTag().toString(), getMenuBody).enqueue(new Callback<List<GetModelCategory>>() {
+                    RetrofitRequest.getApi().getMenu(button.getTag().toString(), getMenuBody).enqueue(new Callback<List<GetModelCategory>>() {
                         @Override
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
                             Map<Integer, ArrayList<String>> map = new HashMap<>();

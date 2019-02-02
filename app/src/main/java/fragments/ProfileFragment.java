@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sirius.rs.R;
-import com.example.sirius.rs.RegisterBody;
+import ResponseBodies.RegisterBody;
 import com.example.sirius.rs.RetrofitRequest;
 
 import java.util.HashMap;
@@ -122,7 +122,7 @@ public class ProfileFragment extends Fragment {
                     registerBody.login = loginReg.getText().toString();
                     registerBody.mail = emailReg.getText().toString();
                     registerBody.password = passwordReg.getText().toString();
-                    RetrofitRequest.getRegisterApi().getATruth(registerBody).enqueue(new Callback<ResponseBody>() {
+                    RetrofitRequest.getApi().letsRegister(registerBody).enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (response.code() == 201) {

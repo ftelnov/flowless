@@ -3,45 +3,19 @@ package fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.sirius.rs.FRBody;
-import com.example.sirius.rs.GetModelCategory;
 import com.example.sirius.rs.R;
-import com.example.sirius.rs.RetrofitRequest;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import Objects.Category;
-import Objects.ClickItem;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ProfileShowFragment extends Fragment {
     public String login;
@@ -112,7 +86,7 @@ public class ProfileShowFragment extends Fragment {
         myAllergen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyAllergens alergenFragment = MyAllergens.newInstance(login);
+                MyAllergensFragment alergenFragment = MyAllergensFragment.newInstance(login);
                 getFragmentManager().beginTransaction().replace(R.id.container, alergenFragment).addToBackStack(null).commit();
             }
         });

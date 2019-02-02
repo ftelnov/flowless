@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.sirius.rs.FRBody;
-import com.example.sirius.rs.GetModelFood;
+import ResponseBodies.LoginContainer;
+import ResponseBodies.GetModelFood;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 
@@ -32,19 +32,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MyAllergens extends Fragment {
+public class MyAllergensFragment extends Fragment {
     public RecyclerView recyclerView;
     public DataAdapter dataAdapter;
     List<Food> buttons = new ArrayList<>();
-    static MyAllergens newInstance(String login){
-        MyAllergens myAllergens = new MyAllergens();
+    static MyAllergensFragment newInstance(String login){
+        MyAllergensFragment myAllergens = new MyAllergensFragment();
         Bundle bundle = new Bundle();
         bundle.putString("login", login);
         myAllergens.setArguments(bundle);
         return myAllergens;
     }
 
-    public MyAllergens() {
+    public MyAllergensFragment() {
     }
 
 
@@ -52,11 +52,11 @@ public class MyAllergens extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_allergens, container, false);
-        FRBody frBody = new FRBody();
-        frBody.login = getArguments().getString("login");
-        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), frBody.login);
+        LoginContainer loginContainer = new LoginContainer();
+        loginContainer.login = getArguments().getString("login");
+        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), loginContainer.login);
 
-        RetrofitRequest.getUserAllergensApi().getData(frBody).enqueue(new Callback<List<GetModelFood>>() {
+        RetrofitRequest.getApi().getUserAllergens(loginContainer).enqueue(new Callback<List<GetModelFood>>() {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 if(response.body() == null){
@@ -126,11 +126,11 @@ public class MyAllergens extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             Button button;
-            FRBody frBody = new FRBody();
+            LoginContainer loginContainer = new LoginContainer();
             ConstraintLayout constraintLayout;
             ViewHolder(View view, final Context context, final FragmentManager manager, String login){
                 super(view);
-                frBody.login = login;
+                loginContainer.login = login;
                 constraintLayout = view.findViewById(R.id.allergenLayout);
                 button = constraintLayout.findViewById(R.id.buttonFood);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +138,7 @@ public class MyAllergens extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(flag){
-                            RetrofitRequest.dellAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
+                            RetrofitRequest.getApi().delAllergen(button.getTag().toString(), loginContainer).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if(response.code() != 200){

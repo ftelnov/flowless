@@ -4,7 +4,6 @@ package fragments;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -14,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.sirius.rs.AuthBody;
+import ResponseBodies.AuthBody;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 
@@ -65,7 +63,7 @@ public class AuthFragment extends Fragment {
                 final AuthBody authBody = new AuthBody();
                 authBody.login = login.getText().toString();
                 authBody.password = password.getText().toString();
-                RetrofitRequest.getAuthApi().getATruth(authBody).enqueue(new Callback<ResponseBody>() {
+                RetrofitRequest.getApi().letsAuth(authBody).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.code() == 200){

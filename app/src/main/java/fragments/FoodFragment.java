@@ -1,7 +1,6 @@
 package fragments;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import Objects.Category;
 
-import com.example.sirius.rs.GetModelCategory;
+import ResponseBodies.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
@@ -83,7 +82,7 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RetrofitRequest.getCategoryApi().getData(tag).enqueue(new Callback<List<GetModelCategory>>() {
+                    RetrofitRequest.getApi().getCategory(tag).enqueue(new Callback<List<GetModelCategory>>() {
                         @Override
                         public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 

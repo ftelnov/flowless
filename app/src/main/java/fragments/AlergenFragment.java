@@ -8,7 +8,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -16,27 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sirius.rs.FRBody;
-import com.example.sirius.rs.GetModelFood;
+import ResponseBodies.LoginContainer;
+import ResponseBodies.GetModelFood;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
-import com.example.sirius.rs.TempClass;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Objects.ClickItem;
 import Objects.Food;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
 
 public class AlergenFragment extends Fragment {
     public RecyclerView recyclerView;
@@ -58,10 +51,10 @@ public class AlergenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_alergen, container, false);
-        FRBody frBody = new FRBody();
+        LoginContainer loginContainer = new LoginContainer();
         final ArrayList<String> ids = new ArrayList<>();
-        frBody.login = getArguments().getString("login");
-        RetrofitRequest.getUserAllergensApi().getData(frBody).enqueue(new Callback<List<GetModelFood>>() {
+        loginContainer.login = getArguments().getString("login");
+        RetrofitRequest.getApi().getUserAllergens(loginContainer).enqueue(new Callback<List<GetModelFood>>() {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 if (response.body() == null) return;
@@ -75,8 +68,8 @@ public class AlergenFragment extends Fragment {
                 Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
             }
         });
-        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), frBody.login, ids);
-        RetrofitRequest.getFoodApi().getAllFood().enqueue(new Callback<List<GetModelFood>>() {
+        dataAdapter = new DataAdapter(getContext(), buttons, getFragmentManager(), loginContainer.login, ids);
+        RetrofitRequest.getApi().getAllFood().enqueue(new Callback<List<GetModelFood>>() {
             @Override
             public void onResponse(Call<List<GetModelFood>> call, Response<List<GetModelFood>> response) {
                 List<GetModelFood> foodList = response.body();
@@ -147,11 +140,11 @@ public class AlergenFragment extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
             Button button;
             ArrayList<String> list;
-            FRBody frBody = new FRBody();
+            LoginContainer loginContainer = new LoginContainer();
             ConstraintLayout constraintLayout;
             ViewHolder(View view, final Context context, final FragmentManager manager, String login, ArrayList<String> flex){
                 super(view);
-                frBody.login = login;
+                loginContainer.login = login;
                 constraintLayout = view.findViewById(R.id.allergenLayout);
                 button = constraintLayout.findViewById(R.id.buttonFood);
                 list = flex;
@@ -160,13 +153,12 @@ public class AlergenFragment extends Fragment {
             public void bind(String text, String id){
                 button.setText(text);
                 button.setTag(id);
-                final TempClass tempClass = new TempClass();
                 button.setOnClickListener(new View.OnClickListener() {
                     private Boolean flag = true;
                     @Override
                     public void onClick(View v) {
                         if(flag){
-                            RetrofitRequest.addAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
+                            RetrofitRequest.getApi().addToAllergen(button.getTag().toString(), loginContainer).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if(response.code() != 201){
@@ -183,7 +175,7 @@ public class AlergenFragment extends Fragment {
                                 }
                             });
                         }else {
-                            RetrofitRequest.dellAllergenApi().getData(button.getTag().toString(), frBody).enqueue(new Callback<ResponseBody>() {
+                            RetrofitRequest.getApi().delAllergen(button.getTag().toString(), loginContainer).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if(response.code() != 200){

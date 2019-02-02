@@ -24,8 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appyvet.materialrangebar.RangeBar;
-import com.example.sirius.rs.FRBody;
-import com.example.sirius.rs.GetModelCategory;
+import ResponseBodies.LoginContainer;
+import ResponseBodies.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import Objects.ClickItem;
+import ResponseBodies.RecipeParametersBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,16 +106,22 @@ public class SearchFragment extends Fragment {
         final CheckBox alergen = (CheckBox) view.findViewById(R.id.allergen);
         //
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
-        final FRBody frBody = new FRBody();
-        frBody.login = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE).getString("login", "$####root####$");
+        final RecipeParametersBody recipeParametersBody = new RecipeParametersBody();
+        recipeParametersBody.login = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE).getString("login", "$####root####$");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                RetrofitRequest.getRecipeByParamApi().getData(frBody, s, Integer.parseInt(rangeBarCalori.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
-                        Integer.parseInt(rangeBarFats.getLeftPinValue()), Integer.parseInt(rangeBarFats.getRightPinValue()),
-                        Integer.parseInt(rangeBarProteins.getLeftPinValue()), Integer.parseInt(rangeBarProteins.getRightPinValue()),
-                        Integer.parseInt(rangeBarCarbo.getLeftPinValue()), Integer.parseInt(rangeBarCalori.getRightPinValue()),
-                        alergen.isChecked()).enqueue(new Callback<List<GetModelCategory>>() {
+                recipeParametersBody.resourceName = s;
+                recipeParametersBody.calories_min = Integer.parseInt(rangeBarCalori.getLeftPinValue());
+                recipeParametersBody.calories_max = Integer.parseInt(rangeBarCalori.getRightPinValue());
+                recipeParametersBody.fats_min = Integer.parseInt(rangeBarFats.getLeftPinValue());
+                recipeParametersBody.fats_max = Integer.parseInt(rangeBarFats.getRightPinValue());
+                recipeParametersBody.proteins_min = Integer.parseInt(rangeBarProteins.getLeftPinValue());
+                recipeParametersBody.proteins_max = Integer.parseInt(rangeBarProteins.getRightPinValue());
+                recipeParametersBody.carbohydrates_min = Integer.parseInt(rangeBarCarbo.getLeftPinValue());
+                recipeParametersBody.carbohydrates_max = Integer.parseInt(rangeBarCarbo.getRightPinValue());
+                recipeParametersBody.flag = alergen.isChecked();
+                RetrofitRequest.getApi().getRecipeByParameters(recipeParametersBody).enqueue(new Callback<List<GetModelCategory>>() {
                     @Override
                     public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
 

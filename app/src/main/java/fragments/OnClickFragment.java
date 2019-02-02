@@ -4,7 +4,6 @@ package fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Trace;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,19 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sirius.rs.AddToMenuBody;
-import com.example.sirius.rs.FRBody;
-import com.example.sirius.rs.GetModelRecipe;
+import ResponseBodies.AddToMenuBody;
+import ResponseBodies.LoginContainer;
+import ResponseBodies.GetModelRecipe;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import Api.AddToMenuApi;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -128,9 +125,9 @@ public class OnClickFragment extends Fragment {
                 return false;
             }
             flag_add = false;
-            FRBody addAsFavouriteBody = new FRBody();
+            LoginContainer addAsFavouriteBody = new LoginContainer();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            RetrofitRequest.getAddFavouriteRecipeApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().addToFav(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 201) {
@@ -159,9 +156,9 @@ public class OnClickFragment extends Fragment {
                 return false;
             }
             flag_add = false;
-            FRBody addAsFavouriteBody = new FRBody();
+            LoginContainer addAsFavouriteBody = new LoginContainer();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            RetrofitRequest.getDeleteFromFavApi().getATruth(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().deleteFromFav(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 200) {
@@ -190,7 +187,7 @@ public class OnClickFragment extends Fragment {
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
             addAsFavouriteBody.recipe_id = this.id;
             addAsFavouriteBody.day = getArguments().getString("day");
-            RetrofitRequest.rmFromMenuApi().getADelTruth(getArguments().getString("meal"), addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().deleteFromMenu(getArguments().getString("meal"), addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 200) {
@@ -219,7 +216,7 @@ public class OnClickFragment extends Fragment {
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
             addAsFavouriteBody.recipe_id = this.id;
             addAsFavouriteBody.day = result_day[0];
-            RetrofitRequest.getAddToMenuApi().getATruth(result_day[1], addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().addToMenu(result_day[1], addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 201) {
@@ -251,7 +248,7 @@ public class OnClickFragment extends Fragment {
         linearLayout = (LinearLayout) view.findViewById(R.id.listExp);
 
 
-        RetrofitRequest.getRecipeApi().getData(id).enqueue(new Callback<GetModelRecipe>() {
+        RetrofitRequest.getApi().getRecipe(id).enqueue(new Callback<GetModelRecipe>() {
             @Override
             public void onResponse(Call<GetModelRecipe> call, Response<GetModelRecipe> response) {
 
