@@ -12,16 +12,19 @@ import android.widget.Toast;
 
 import Objects.Category;
 
-import ResponseBodies.GetModelCategory;
+import Objects.Recipe;
+
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import ResponseBodies.GetModelRecipe;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +34,7 @@ public class FoodFragment extends Fragment {
     final Context context = getContext();
     public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
-    public  ImageButton imageButton;
+    public ImageButton imageButton;
 
     public static FoodFragment newInstance(FragmentManager manager) {
         FoodFragment catFragment = new FoodFragment();
@@ -41,12 +44,12 @@ public class FoodFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(imageButton == null) return;
-        for(ImageButton imageButton: visited.keySet()){
+        if (imageButton == null) return;
+        for (ImageButton imageButton : visited.keySet()) {
             visited.put(imageButton, false);
         }
         visited.put(imageButton, true);
-        for(ImageButton imageButton: map.keySet()){
+        for (ImageButton imageButton : map.keySet()) {
             imageButton.setImageResource(map.get(imageButton));
         }
         imageButton.setImageResource(R.drawable.food_light);
@@ -82,27 +85,28 @@ public class FoodFragment extends Fragment {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RetrofitRequest.getApi().getCategory(tag).enqueue(new Callback<List<GetModelCategory>>() {
+                    RetrofitRequest.getApi().getCategory(tag).enqueue(new Callback<List<GetModelRecipe>>() {
                         @Override
-                        public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
+                        public void onResponse(Call<List<GetModelRecipe>> call, Response<List<GetModelRecipe>> response) {
 
-                            Map<Integer, ArrayList<String>> map = new HashMap<>();
-                            List<GetModelCategory> list = response.body();
-                            for (GetModelCategory adb : list) {
-                                ArrayList<String> arrayList = new ArrayList<String>();
-                                arrayList.add(adb.recipeTitle);
-                                arrayList.add(adb.recipeId.toString());
-                                arrayList.add(adb.timeOfCooking.toString());
-                                arrayList.add(adb.recipeImage);
-                                map.put(adb.recipeId, arrayList);
+                            List<Recipe> recipeList = new ArrayList<Recipe>();
+                            List<GetModelRecipe> list = response.body();
+                            for (GetModelRecipe adb : list) {
+                                Recipe recipe = new Recipe(adb.recipeId, adb.recipeTitle,
+                                        adb.timeOfCooking, adb.recipeType, adb.calories,
+                                        adb.proteins, adb.fats, adb.recipeIngredients,
+                                        adb.portions, adb.recipeImage, adb.userId,
+                                        adb.carbohydrates, adb.recipe);
+                                recipeList.add(recipe);
+
                             }
-                            Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
+                            Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", recipeList);
                             CategoryFragment catFragment = CategoryFragment.newInstance(cat);
                             fragmentManager.beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                         }
 
                         @Override
-                        public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
+                        public void onFailure(Call<List<GetModelRecipe>> call, Throwable t) {
                             Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
                         }
                     });

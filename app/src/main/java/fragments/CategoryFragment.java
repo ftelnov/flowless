@@ -1,6 +1,6 @@
 package fragments;
 
-//ArrayList первым значением берет имя рецепта, вторым - описание, третьим - рут картинки
+//Recipe - структура, созданная для хранения данных о рецепте, заполняется в Food
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -19,7 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import Objects.Category;
-import Objects.ClickItem;
+import Objects.Recipe;
+
 import com.example.sirius.rs.R;
 import com.squareup.picasso.Picasso;
 
@@ -29,21 +30,12 @@ import java.util.Map;
 
 
 public class CategoryFragment extends Fragment {
-    List<ClickItem> buttons = new ArrayList<>();
+    List<Recipe> buttons = new ArrayList<>();
     public static CategoryFragment newInstance(Category tag) {
         CategoryFragment catFragment = new CategoryFragment();
         Bundle args = new Bundle();
         args.putSerializable("category", tag);
         args.putString("name", "none");
-        catFragment.setArguments(args);
-        return catFragment;
-    }
-
-    public static CategoryFragment newInstance(Category tag, String name) {
-        CategoryFragment catFragment = new CategoryFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("category", tag);
-        args.putString("name", name);
         catFragment.setArguments(args);
         return catFragment;
     }
@@ -73,10 +65,9 @@ public class CategoryFragment extends Fragment {
     }
     private void setInitialData(View view, Category cat){
         buttons.clear();
-        Map<Integer, ArrayList<String>> map =  cat.getReceipts();
-        for(ArrayList<String> arr: map.values()){
-            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
-            buttons.add(click);
+        List<Recipe> recipeList =  cat.getReceipts();
+        for(Recipe recipe: recipeList){
+            buttons.add(recipe);
         }
     }
 }
@@ -84,11 +75,11 @@ public class CategoryFragment extends Fragment {
 class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<ClickItem> buttons;
+    private List<Recipe> buttons;
     private Context context;
     private FragmentManager manager;
 
-    DataAdapter(Context context, List<ClickItem> buttons, FragmentManager manager) {
+    DataAdapter(Context context, List<Recipe> buttons, FragmentManager manager) {
         this.buttons = buttons;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -103,8 +94,8 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
-        ClickItem button = buttons.get(position);
-        holder.bind(button.getText(), button.getIden(), button.getTime(), button.getImageRoot());
+        Recipe button = buttons.get(position);
+        holder.bind(button);
     }
 
     @Override
@@ -117,6 +108,7 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         TextView textView;
         TextView timeView;
         ImageView imageView;
+        Recipe recipe;
 
         ViewHolder(View view, final Context context, final FragmentManager manager){
             super(view);
@@ -127,16 +119,18 @@ class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             lay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    OnClickFragment fragment = OnClickFragment.newInstance(textView.getText().toString(), textView.getTag().toString(), "category");
+                    OnClickFragment fragment = OnClickFragment.newInstance(recipe);
                     manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
                 }
             });
 
         }
-        public void bind(String text, String id, String time, String imageRoot){
-            textView.setText(text);
-            textView.setTag(id);
-            timeView.setText(time + " мин.");
+        public void bind(Recipe recipe){
+            textView.setText(recipe.getTitle());
+            textView.setTag(recipe.getId());
+            timeView.setText(recipe.getTime_of_cooking());
+            this.recipe = recipe;
+            String imageRoot = recipe.getRecipe_image();
             if (!imageRoot.isEmpty())   Picasso.get().load(imageRoot.substring(imageRoot.indexOf('(') + 1, imageRoot.indexOf(')'))).into(imageView);
         }
     }

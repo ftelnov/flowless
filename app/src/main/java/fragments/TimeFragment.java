@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import Objects.Recipe;
 import ResponseBodies.GetMenuBody;
-import ResponseBodies.GetModelCategory;
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import Objects.Category;
+import ResponseBodies.GetModelRecipe;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,32 +65,29 @@ public class TimeFragment extends Fragment {
                     GetMenuBody getMenuBody = new GetMenuBody();
                     getMenuBody.day = tag.toLowerCase();
                     getMenuBody.login = mySharedPreferences.getString("login", "flow");
-                    RetrofitRequest.getApi().getMenu(button.getTag().toString(), getMenuBody).enqueue(new Callback<List<GetModelCategory>>() {
+                    RetrofitRequest.getApi().getMenu(button.getTag().toString(), getMenuBody).enqueue(new Callback<List<GetModelRecipe>>() {
                         @Override
-                        public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
-                            Map<Integer, ArrayList<String>> map = new HashMap<>();
-                            List<GetModelCategory> list = response.body();
-                            if(list == null){
-                                Toast.makeText(getActivity(), "Рецепты еще не добавлены", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            for (GetModelCategory adb : list) {
-                                ArrayList<String> arrayList = new ArrayList<String>();
-                                arrayList.add(adb.recipeTitle);
-                                arrayList.add(adb.recipeId.toString());
-                                arrayList.add(adb.timeOfCooking.toString());
-                                arrayList.add(adb.recipeImage);
-                                map.put(adb.recipeId, arrayList);
-                            }
-                            Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", map);
-                            CategoryFragmentMenu catFragment = CategoryFragmentMenu.newInstance(cat, getArguments().getString("day"), button.getTag().toString());
-                            getFragmentManager().beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
+                        public void onResponse(Call<List<GetModelRecipe>> call, Response<List<GetModelRecipe>> response) {
 
+                            List<Recipe> recipeList = new ArrayList<Recipe>();
+                            List<GetModelRecipe> list = response.body();
+                            for (GetModelRecipe adb : list) {
+                                Recipe recipe = new Recipe(adb.recipeId, adb.recipeTitle,
+                                        adb.timeOfCooking, adb.recipeType, adb.calories,
+                                        adb.proteins, adb.fats, adb.recipeIngredients,
+                                        adb.portions, adb.recipeImage, adb.userId,
+                                        adb.carbohydrates, adb.recipe);
+                                recipeList.add(recipe);
+
+                            }
+                            Category cat = new Category(tag, -15, "http://gg.gg/cw7ad", recipeList);
+                            CategoryFragment catFragment = CategoryFragment.newInstance(cat);
+                            getFragmentManager().beginTransaction().replace(R.id.container, catFragment).addToBackStack(null).commit();
                         }
 
                         @Override
-                        public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
-                            Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
+                        public void onFailure(Call<List<GetModelRecipe>> call, Throwable t) {
+                            Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

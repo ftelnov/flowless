@@ -2,16 +2,17 @@ package Objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Category implements Serializable {
-    private Map<Integer, ArrayList<String>> map;
+    private List<Recipe> recipeList;
     private String name;
     private Integer id;
     private String imageRoot;
 
-    public Category(String name, Integer id, String imageRoot, Map<Integer, ArrayList<String>> map){
-        this.map = map;
+    public Category(String name, Integer id, String imageRoot, List<Recipe> map){
+        this.recipeList = map;
         this.name = name;
         this.id = id;
         this.imageRoot = imageRoot;
@@ -25,8 +26,8 @@ public class Category implements Serializable {
         return this.name;
     }
 
-    public Map<Integer, ArrayList<String>> getReceipts(){
-        return this.map;
+    public List<Recipe> getReceipts(){
+        return this.recipeList;
     }
 
     public String getImageRoot(){

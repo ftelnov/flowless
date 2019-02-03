@@ -24,8 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appyvet.materialrangebar.RangeBar;
+
+import Objects.Recipe;
+import ResponseBodies.GetModelRecipe;
 import ResponseBodies.LoginContainer;
-import ResponseBodies.GetModelCategory;
+
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
@@ -35,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Objects.ClickItem;
 import ResponseBodies.RecipeParametersBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +46,7 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
     private boolean flag = true;
-    List<ClickItem> buttons = new ArrayList<ClickItem>();
+    List<Recipe> buttons = new ArrayList<Recipe>();
     public Map<ImageButton, Integer> map = new HashMap<ImageButton, Integer>();
     public Map<ImageButton, Boolean> visited = new HashMap<ImageButton, Boolean>();
     public ImageButton imageButton;
@@ -121,9 +123,9 @@ public class SearchFragment extends Fragment {
                 recipeParametersBody.carbohydrates_min = Integer.parseInt(rangeBarCarbo.getLeftPinValue());
                 recipeParametersBody.carbohydrates_max = Integer.parseInt(rangeBarCarbo.getRightPinValue());
                 recipeParametersBody.flag = alergen.isChecked();
-                RetrofitRequest.getApi().getRecipeByParameters(recipeParametersBody).enqueue(new Callback<List<GetModelCategory>>() {
+                RetrofitRequest.getApi().getRecipeByParameters(recipeParametersBody).enqueue(new Callback<List<GetModelRecipe>>() {
                     @Override
-                    public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
+                    public void onResponse(Call<List<GetModelRecipe>> call, Response<List<GetModelRecipe>> response) {
 
                         HashMap<Integer, ArrayList<String>> map = new HashMap<>();
                         setFlag(false);
@@ -134,20 +136,21 @@ public class SearchFragment extends Fragment {
                             buttons.clear();
                             return;
                         }
-                        List<GetModelCategory> list = response.body();
-                        for (GetModelCategory adb : list) {
-                            ArrayList<String> arrayList = new ArrayList<String>();
-                            arrayList.add(adb.recipeTitle);
-                            arrayList.add(adb.recipeId.toString());
-                            arrayList.add(adb.timeOfCooking.toString());
-                            arrayList.add(adb.recipeImage);
-                            map.put(adb.recipeId, arrayList);
+                        List<Recipe> recipeList = new ArrayList<Recipe>();
+                        List<GetModelRecipe> list = response.body();
+                        for (GetModelRecipe adb : list) {
+                            Recipe recipe = new Recipe(adb.recipeId, adb.recipeTitle,
+                                    adb.timeOfCooking, adb.recipeType, adb.calories,
+                                    adb.proteins, adb.fats, adb.recipeIngredients,
+                                    adb.portions, adb.recipeImage, adb.userId,
+                                    adb.carbohydrates, adb.recipe);
+                            recipeList.add(recipe);
                         }
-                        setInitialData(view, map);
+                        setInitialData(view, recipeList);
                     }
 
                     @Override
-                    public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
+                    public void onFailure(Call<List<GetModelRecipe>> call, Throwable t) {
                         Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -168,98 +171,14 @@ public class SearchFragment extends Fragment {
         return this.flag;
     }
 
-    private void setInitialData(View view, HashMap<Integer, ArrayList<String>> params) {
+    private void setInitialData(View view, List<Recipe> recipeList) {
         buttons.clear();
-        HashMap<Integer, ArrayList<String>> map = params;
-        for (ArrayList<String> arr : map.values()) {
-            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
-            buttons.add(click);
-        }
+        buttons.addAll(recipeList);
     }
 
     public void setFlag(Boolean flag) {
         this.flag = flag;
     }
 
-
-    //Recycler Man
-    class DataAdapter extends RecyclerView.Adapter<fragments.DataAdapter.ViewHolder> {
-
-        private LayoutInflater inflater;
-        private List<ClickItem> buttons;
-        private Context context;
-        private FragmentManager manager;
-
-        DataAdapter(Context context, List<ClickItem> buttons, FragmentManager manager) {
-            this.buttons = buttons;
-            this.inflater = LayoutInflater.from(context);
-            this.context = context;
-            this.manager = manager;
-        }
-
-        @Override
-        public fragments.DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View view = inflater.inflate(R.layout.but, parent, false);
-            return new fragments.DataAdapter.ViewHolder(view, context, manager);
-        }
-
-        @Override
-        public void onBindViewHolder(fragments.DataAdapter.ViewHolder holder, int position) {
-            ClickItem button = buttons.get(position);
-            holder.bind(button.getText(), button.getIden(), button.getTime(), button.getImageRoot());
-        }
-
-        @Override
-        public int getItemCount() {
-            return buttons.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            ConstraintLayout lay;
-            TextView textView;
-            TextView timeView;
-            ImageView imageView;
-
-            ViewHolder(View view, final Context context, final FragmentManager manager) {
-                super(view);
-                lay = (ConstraintLayout) view.findViewById(R.id.constr);
-                textView = lay.findViewById(R.id.button);
-                timeView = lay.findViewById(R.id.time);
-                imageView = lay.findViewById(R.id.imageView);
-                lay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        OnClickFragment fragment = OnClickFragment.newInstance(textView.getText().toString(), textView.getTag().toString(), "search");
-
-                        manager.beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-                    }
-                });
-
-            }
-
-            public void bind(String text, String id, String time, String imageRoot) {
-                textView.setText(text);
-                textView.setTag(id);
-                timeView.setText(time + " мин.");
-                if (!imageRoot.isEmpty())
-                    Picasso.get().load(imageRoot.substring(imageRoot.indexOf('(') + 1, imageRoot.indexOf(')'))).into(imageView);
-            }
-        }
-    }
-
-    class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.top = space;
-            outRect.bottom = space;
-        }
-    }
 
 }

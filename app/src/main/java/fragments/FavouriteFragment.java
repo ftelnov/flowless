@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import Objects.Category;
+import Objects.Recipe;
+import ResponseBodies.GetModelRecipe;
 import ResponseBodies.LoginContainer;
-import ResponseBodies.GetModelCategory;
+
 import com.example.sirius.rs.R;
 import com.example.sirius.rs.RetrofitRequest;
 
@@ -23,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Objects.ClickItem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,16 +34,17 @@ import retrofit2.Response;
 public class FavouriteFragment extends Fragment {
     public String login;
     public RecyclerView recyclerView;
-    List<ClickItem> buttons = new ArrayList<>();
+    List<Recipe> buttons = new ArrayList<>();
     DataAdapter adapter;
 
-    static FavouriteFragment newInstance(String login){
+    static FavouriteFragment newInstance(String login) {
         FavouriteFragment favouriteFragment = new FavouriteFragment();
         Bundle bundle = new Bundle();
         bundle.putString("login", login);
         favouriteFragment.setArguments(bundle);
         return favouriteFragment;
     }
+
     public FavouriteFragment() {
     }
 
@@ -69,38 +72,36 @@ public class FavouriteFragment extends Fragment {
     private void initData() {
         LoginContainer loginContainer = new LoginContainer();
         loginContainer.login = this.login;
-        RetrofitRequest.getApi().getFavouriteRecipes(loginContainer).enqueue(new Callback<List<GetModelCategory>>() {
+        RetrofitRequest.getApi().getFavouriteRecipes(loginContainer).enqueue(new Callback<List<GetModelRecipe>>() {
             @Override
-            public void onResponse(Call<List<GetModelCategory>> call, Response<List<GetModelCategory>> response) {
+            public void onResponse(Call<List<GetModelRecipe>> call, Response<List<GetModelRecipe>> response) {
 
-                HashMap<Integer, ArrayList<String>> map = new HashMap<>();
+                List<Recipe> recipeList = new ArrayList<Recipe>();
+                List<GetModelRecipe> list = response.body();
+                for (GetModelRecipe adb : list) {
+                    Recipe recipe = new Recipe(adb.recipeId, adb.recipeTitle,
+                            adb.timeOfCooking, adb.recipeType, adb.calories,
+                            adb.proteins, adb.fats, adb.recipeIngredients,
+                            adb.portions, adb.recipeImage, adb.userId,
+                            adb.carbohydrates, adb.recipe);
+                    recipeList.add(recipe);
 
-                List<GetModelCategory> list = response.body();
-                for (GetModelCategory adb : list) {
-                    ArrayList<String> arrayList = new ArrayList<String>();
-                    arrayList.add(adb.recipeTitle);
-                    arrayList.add(adb.recipeId.toString());
-                    arrayList.add(adb.timeOfCooking.toString());
-                    arrayList.add(adb.recipeImage);
-                    map.put(adb.recipeId, arrayList);
                 }
-                setInitialData(map);
+                setInitialData(recipeList);
                 adapter = new DataAdapter(getContext(), buttons, getFragmentManager());
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<List<GetModelCategory>> call, Throwable t) {
+            public void onFailure(Call<List<GetModelRecipe>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Сервер недоступен или у Вас отсутствует подключение к сети!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void setInitialData(HashMap<Integer, ArrayList<String>> map){
+
+    private void setInitialData(List<Recipe> recipeList) {
         buttons.clear();
-        for(ArrayList<String> arr: map.values()){
-            ClickItem click = new ClickItem(arr.get(0), arr.get(1), arr.get(2), arr.get(3));
-            buttons.add(click);
-        }
+        buttons.addAll(recipeList);
     }
 }

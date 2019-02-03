@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Objects.Recipe;
 import ResponseBodies.AddToMenuBody;
 import ResponseBodies.LoginContainer;
 import ResponseBodies.GetModelRecipe;
@@ -27,6 +28,8 @@ import com.example.sirius.rs.RetrofitRequest;
 import com.squareup.picasso.Picasso;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,29 +45,13 @@ public class OnClickFragment extends Fragment {
     private LinearLayout linearLayout;
     private Boolean flag_add = true;
     private Boolean flag_auth = false;
+    private Recipe recipe;
     private Map<Integer, String[]> map;
-    private String id;
-    private String from = "menu";
 
-    public static OnClickFragment newInstance(String name, String id, String from) {
+    public static OnClickFragment newInstance(Serializable map) {
         OnClickFragment fragment = new OnClickFragment();
         Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putString("id", id);
-        args.putString("from", from);
-        args.putString("day", "nil");
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static OnClickFragment newInstance(String name, String id, String from, String day, String meal) {
-        OnClickFragment fragment = new OnClickFragment();
-        Bundle args = new Bundle();
-        args.putString("name", name);
-        args.putString("id", id);
-        args.putString("from", from);
-        args.putString("day", day);
-        args.putString("meal", meal);
+        args.putSerializable("map", map);
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,7 +99,6 @@ public class OnClickFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        this.from = getArguments().getString("from");
         if (id == R.id.addtofav) {
             final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
             flag_auth = mySharedPreferences.getBoolean("auth", false);
@@ -127,7 +113,7 @@ public class OnClickFragment extends Fragment {
             flag_add = false;
             LoginContainer addAsFavouriteBody = new LoginContainer();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            RetrofitRequest.getApi().addToFav(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().addToFav(addAsFavouriteBody, String.valueOf(recipe.getId())).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 201) {
@@ -158,42 +144,13 @@ public class OnClickFragment extends Fragment {
             flag_add = false;
             LoginContainer addAsFavouriteBody = new LoginContainer();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            RetrofitRequest.getApi().deleteFromFav(addAsFavouriteBody, this.id).enqueue(new Callback<ResponseBody>() {
+            RetrofitRequest.getApi().deleteFromFav(addAsFavouriteBody, String.valueOf(recipe.getId())).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.code() == 200) {
                         Toast.makeText(getActivity(), "Рецепт успешно удален из избранного!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), "Рецепта нет в избранном!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(getActivity(), "В данный момент сервер недоступен. Проверьте подключение к сети и попробуйте снова!", Toast.LENGTH_SHORT).show();
-                }
-            });
-            return true;
-        }
-        else if(id == R.id.delfrommenu && this.from.equals("menu")){
-            final SharedPreferences mySharedPreferences = this.getActivity().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
-            flag_auth = mySharedPreferences.getBoolean("auth", false);
-            if (!flag_auth) {
-                Toast.makeText(getActivity(), "Вы не авторизированы! Перейдите в раздел авторизации!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            String[] result_day = map.get(id);
-            AddToMenuBody addAsFavouriteBody = new AddToMenuBody();
-            addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            addAsFavouriteBody.recipe_id = this.id;
-            addAsFavouriteBody.day = getArguments().getString("day");
-            RetrofitRequest.getApi().deleteFromMenu(getArguments().getString("meal"), addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.code() == 200) {
-                        Toast.makeText(getActivity(), "Рецепт успешно удален из меню!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "Рецепта нет в меню!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -214,7 +171,7 @@ public class OnClickFragment extends Fragment {
             String[] result_day = map.get(id);
             AddToMenuBody addAsFavouriteBody = new AddToMenuBody();
             addAsFavouriteBody.login = mySharedPreferences.getString("login", "flow");
-            addAsFavouriteBody.recipe_id = this.id;
+            addAsFavouriteBody.recipe_id = String.valueOf(recipe.getId());
             addAsFavouriteBody.day = result_day[0];
             RetrofitRequest.getApi().addToMenu(result_day[1], addAsFavouriteBody).enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -242,86 +199,61 @@ public class OnClickFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_on_click, container, false);
         this.view = view;
 
-        String name = (String) getArguments().getString("name");
-        id = (String) getArguments().getString("id");
-        from = getArguments().getString("from");
+        recipe = (Recipe) getArguments().getSerializable("map");
         linearLayout = (LinearLayout) view.findViewById(R.id.listExp);
-
-
-        RetrofitRequest.getApi().getRecipe(id).enqueue(new Callback<GetModelRecipe>() {
+        View tempView = getView();
+        TextView name = (TextView) tempView.findViewById(R.id.nameView);
+        name.setText(recipe.getTitle());
+        final ConstraintLayout constraintLayout = (ConstraintLayout) tempView.findViewById(R.id.showLayout);
+        final ImageButton button = (ImageButton) constraintLayout.findViewById(R.id.listButton);
+        final TextView textView = (TextView) constraintLayout.findViewById(R.id.textView16);
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<GetModelRecipe> call, Response<GetModelRecipe> response) {
-
-                if (response.body() == null) {
-                    Toast.makeText(getActivity(), "Сервер в данный моменты недоступен, повторите запрос позже!", Toast.LENGTH_LONG).show();
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    fm.popBackStack();
-                    return;
+            public void onClick(View v) {
+                if (getFlag()) {
+                    setFlag(false);
+                    button.setImageResource(R.drawable.arrowdown_light);
+                    textView.setText("Показать подробности рецепта");
+                    linearLayout.setVisibility(View.GONE);
+                } else {
+                    setFlag(true);
+                    button.setImageResource(R.drawable.arrow_light);
+                    textView.setText("Скрыть подробности рецепта");
+                    linearLayout.setVisibility(View.VISIBLE);
                 }
-                final GetModelRecipe list = response.body();
-                View tempView = getView();
-                TextView name = (TextView) tempView.findViewById(R.id.nameView);
-                name.setText(list.recipeTitle);
-//button
-                final ConstraintLayout constraintLayout = (ConstraintLayout) tempView.findViewById(R.id.showLayout);
-                final ImageButton button = (ImageButton) constraintLayout.findViewById(R.id.listButton);
-                final TextView textView = (TextView) constraintLayout.findViewById(R.id.textView16);
-                constraintLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (getFlag()) {
-                            setFlag(false);
-                            button.setImageResource(R.drawable.arrowdown_light);
-                            textView.setText("Показать подробности рецепта");
-                            linearLayout.setVisibility(View.GONE);
-                        } else {
-                            setFlag(true);
-                            button.setImageResource(R.drawable.arrow_light);
-                            textView.setText("Скрыть подробности рецепта");
-                            linearLayout.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                //
-                TextView callori = (TextView) tempView.findViewById(R.id.callori);
-                callori.setText(callori.getText() + list.calories.toString() + '\n');
-
-                TextView proteins = (TextView) tempView.findViewById(R.id.proteins);
-                proteins.setText(proteins.getText() + list.proteins.toString() + '\n');
-
-                TextView fats = (TextView) tempView.findViewById(R.id.fats);
-                fats.setText(fats.getText() + list.fats.toString() + '\n');
-
-                TextView carbon = (TextView) tempView.findViewById(R.id.carbohydrates);
-                carbon.setText(carbon.getText() + list.carbohydrates.toString() + '\n');
-
-                TextView timecook = (TextView) tempView.findViewById(R.id.time);
-                timecook.setText(timecook.getText() + list.timeOfCooking.toString() + '\n');
-
-                TextView ingrid = (TextView) tempView.findViewById(R.id.ingrid);
-                ingrid.setText(ingrid.getText() + "\n" + list.recipeIngredients.toString() + '\n');
-
-                TextView portions = (TextView) tempView.findViewById(R.id.portions);
-                portions.setText(portions.getText() + list.portions.toString() + '\n');
-
-                TextView receipt = (TextView) tempView.findViewById(R.id.textView5);
-                receipt.setText(receipt.getText() + "\n " + list.recipe.toString());
-
-                ImageView imageView = (ImageView) tempView.findViewById(R.id.imageView2);
-                if (!list.recipeImage.isEmpty()) {
-                    Picasso.get().load(list.recipeImage.substring(list.recipeImage.indexOf('(') + 1, list.recipeImage.indexOf(')'))).into(imageView);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<GetModelRecipe> call, Throwable t) {
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStack();
             }
         });
+
+        //
+        TextView callori = (TextView) tempView.findViewById(R.id.callori);
+        callori.setText(callori.getText() + recipe.getCalories().toString() + '\n');
+
+        TextView proteins = (TextView) tempView.findViewById(R.id.proteins);
+        proteins.setText(proteins.getText() + recipe.getProteins().toString() + '\n');
+
+        TextView fats = (TextView) tempView.findViewById(R.id.fats);
+        fats.setText(fats.getText() + recipe.getFats().toString() + '\n');
+
+        TextView carbon = (TextView) tempView.findViewById(R.id.carbohydrates);
+        carbon.setText(carbon.getText() + recipe.getCarbohydrates().toString() + '\n');
+
+        TextView timecook = (TextView) tempView.findViewById(R.id.time);
+        timecook.setText(timecook.getText() + recipe.getTime_of_cooking().toString() + '\n');
+
+        TextView ingrid = (TextView) tempView.findViewById(R.id.ingrid);
+        ingrid.setText(ingrid.getText() + "\n" + recipe.getRecipe_ingredients() + '\n');
+
+        TextView portions = (TextView) tempView.findViewById(R.id.portions);
+        portions.setText(portions.getText() + recipe.getPortions().toString() + '\n');
+
+        TextView receipt = (TextView) tempView.findViewById(R.id.textView5);
+        receipt.setText(receipt.getText() + "\n " + recipe.getRecipe());
+
+        ImageView imageView = (ImageView) tempView.findViewById(R.id.imageView2);
+        String image = recipe.getRecipe_image();
+        if (!image.isEmpty()) {
+            Picasso.get().load(image.substring(image.indexOf('(') + 1, image.indexOf(')'))).into(imageView);
+        }
         return view;
     }
 

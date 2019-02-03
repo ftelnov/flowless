@@ -2,12 +2,12 @@ package Api;
 
 import java.util.List;
 
+import Objects.Recipe;
 import ResponseBodies.AddToMenuBody;
 import ResponseBodies.AuthBody;
 import ResponseBodies.LoginContainer;
 
 import ResponseBodies.GetMenuBody;
-import ResponseBodies.GetModelCategory;
 import ResponseBodies.GetModelFood;
 import ResponseBodies.GetModelRecipe;
 import ResponseBodies.RecipeParametersBody;
@@ -34,7 +34,7 @@ public interface API {
     Call<ResponseBody> letsAuth(@Body AuthBody registrationBody);
 
     @GET("/category/{name}")
-    Call<List<GetModelCategory>> getCategory(@Path("name") String resourceName);
+    Call<List<GetModelRecipe>> getCategory(@Path("name") String resourceName);
 
     @GET("/recipe/{id}/Comment")
     Call<GetModelRecipe> getComment(@Path("id") String resourceName);
@@ -46,19 +46,16 @@ public interface API {
     Call<ResponseBody> delAllergen(@Path("id") String resourceName, @Body LoginContainer flex);
 
     @GET("/user/getfavs")
-    Call<List<GetModelCategory>> getFavouriteRecipes(@Body LoginContainer registerBody);
+    Call<List<GetModelRecipe>> getFavouriteRecipes(@Body LoginContainer registerBody);
 
     @GET("/food")
     Call<List<GetModelFood>> getAllFood();
 
     @POST("/user/menu/{time}")
-    Call<List<GetModelCategory>> getMenu(@Path("time") String time, @Body GetMenuBody addToMenuBody);
-
-    @GET("/recipe/{name}")
-    Call<GetModelRecipe> getRecipe(@Path("name") String resourceName);
+    Call<List<GetModelRecipe>> getMenu(@Path("time") String time, @Body GetMenuBody addToMenuBody);
 
     @POST("/filter")
-    Call<List<GetModelCategory>> getRecipeByParameters(@Body RecipeParametersBody body);
+    Call<List<GetModelRecipe>> getRecipeByParameters(@Body RecipeParametersBody body);
 
     @POST("/register")
     Call<ResponseBody> letsRegister(@Body RegisterBody registerBody);
